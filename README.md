@@ -1,2 +1,2 @@
-# Lgm
+# LMG
 WPL Project
