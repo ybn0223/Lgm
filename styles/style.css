@@ -1,3 +1,11 @@
 #lmgProject:hover{
     cursor: pointer;
 }
+
+#blacklist{
+    margin:5%;
+}
+
+.offset{
+    margin-left: 15%;
+}
