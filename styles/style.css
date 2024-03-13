@@ -1,10 +1,13 @@
+/* reset css toevoegen */
 body{
     display: grid;
     grid-template-columns: 
     "nav",
     "hero",
     "main",
+    "mainBottom"
     "footer";
+    background-color: #fff2e6 ;
 }
 #lmgProject:hover{
     cursor: pointer;
@@ -19,4 +22,21 @@ body{
     font-family: nunito, sans-serif;
     font-weight: bold;
     font-size: 2rem;
+}
+#homeButtons{
+    display: flex;
+    grid-area: main;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    font-family: nunito, sans-serif;
+    padding-bottom: 1rem;
+}
+.homeButtonsArticle{
+    margin-left: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+.homepageImages{
+    margin-top: 2rem;
 }

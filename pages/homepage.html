@@ -24,16 +24,33 @@
           </ul>
           <img src="../assets/testLogo.png" width="192" height="86">
           <section class="col-md-3 text-end">
-            <button type="button" class="btn btn-outline-primary me-2">Login</button>
-            <button type="button" class="btn btn-primary me-2">Sign-up</button>
+            <button type="button" class="btn btn-outline-warning me-2">Login</button>
+            <button type="button" class="btn btn-outline-warning me-2">Sign-up</button>
           </section>
         </nav>
         <br>
     </header>
     <main>
       <p id="heroText">Welkom op onze website waar je lego minifiguren en sets kunt bekijken en sorteren</p>
+      <section id="homeButtons">
+        <article class="homeButtonsArticle">
+          <button type="button" class="btn btn-outline-warning" id="homeSortBtn">ordenen</button>
+          <img class="homepageImages" id="sortImage" height="192" width="192" src="../assets/sortImage.png" alt="">
+        </article>
+        <!-- VRAAG OF INLINE CSS NIET MAG -->
+        <article class="homeButtonsArticle">
+          <button type="button" class="btn btn-outline-warning" id="homeBlacklistBtn">blacklist</button>
+          <img class="homepageImages" id="sortImage" height="192" width="192" src="../assets/blacklist.png" alt="">
+
+        </article>
+        <article class="homeButtonsArticle">
+          <button type="button" class="btn btn-outline-warning" id="homeMinifigsBtn">minifigs</button>
+          <img class="homepageImages" id="sortImage" height="192" width="192" src="../assets/minifigHomepage.png" alt="">
+
+        </article>
+      </section>
     </main>
-    <footer id="footer" class="py-3 my-4">
+    <footer id="footer" class="py-3 my-4 fixed-bottom">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
           <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
           <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Ordenen</a></li>
