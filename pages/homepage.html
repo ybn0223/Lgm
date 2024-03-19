@@ -1,33 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/style.css">
+
+    <!-- google font nunito -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+
+    <!-- login modal -->
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+ <!-- Custom Script -->  
+
 </head>
 <body>
     <header>
-        <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-          <ul class="nav col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2">Ordenen</a></li>
-            <li><a href="#" class="nav-link px-2">Mijn Lijst</a></li>
-            <li><a href="#" class="nav-link px-2">Blacklist</a></li>
-            <li><a href="#" class="nav-link px-2">Contact</a></li>
-          </ul>
-          <img src="../assets/testLogo.png" width="192" height="86">
+      <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <ul class="nav col-md-auto mb-2 justify-content-center mb-md-0">
+          <li><img src="../assets/iconLogo.svg" width="48" class="ms-3"></li>
+          <li><a href="homepage.html" class="nav-link px-2">Home</a></li>
+          <li><a href="sort.html" class="nav-link px-2">Ordenen</a></li>
+          <li><a href="figsAndSets.html" class="nav-link px-2">Collectie</a></li>
+          <li><a href="blacklist.html" class="nav-link px-2">Blacklist</a></li>
+          <li><a href="contact.html" class="nav-link px-2">Contact</a></li>
+        </ul>
           <section class="col-md-3 text-end">
-            <button type="button" class="btn btn-outline-primary me-2">Login</button>
-            <button type="button" class="btn btn-primary">Sign-up</button>
+            <button type="button" class="btn btn-warning me-2" data-toggle="modal" data-target="#profileModal">profile</button>
+            <a href="../index.html" id="logoutbtn" type="button" class="btn btn-outline-warning me-2">Log out</a>
           </section>
         </nav>
         <br>
     </header>
     <main>
+      <!-- register modal -->
+      <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="me-2 mt-2 border-bottom-0 text-end">
+                <button type="button" class="btn-close" aria-label="Close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="card mx-2 content">
+                      <h1 class="text-center">Mijn profiel</h1>
+                      <div class="card-body text-center">
+                        <div class="text-center">
+                          <img class="rounded-circle shadow-4-strong" height="125" width="125" id="profileAvatar" alt="avatar" src="/assets/yodaAvatar.png" />
+                        </div>
+                        <div class="text-center mt-1">
+                          <div class="">
+                            <h5>voornaam</h5>
+                          </div>
+                          <div class="">
+                            <input class="form-control text-center" type="text" value="John" aria-label="Disabled input example" disabled>
+                          </div>
+                          <hr>
+                          <div class="text-center">
+                            <div class="">
+                              <h5>achternaam</h5>
+                            </div>
+                            <div class="">
+                              <input class="form-control text-center" type="text" value="Doe" aria-label="Disabled input example" disabled>
+                            </div>
+                            <hr>
+                            <div class="text-center">
+                            <div class="">
+                              <h5>e-mail</h5>
+                            </div>
+                            <div class="">
+                              <input class="form-control text-center" type="text" value="JohnDoe123@outlook.com" aria-label="Disabled input example" disabled>
+                            </div>
+                            <hr>
+                            <div class="form-group mt-3">
+                              <input type="password" class="form-control text-center" id="regPass2" placeholder="wijzig wachtwoord">
+                            </div>
+                            <div class="form-group mt-3">
+                              <input type="password" class="form-control text-center" id="regPass2" placeholder="bevestig wachtwoord">
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-outline-warning mx-5 mb-3 mt-2" data-dismiss="modal" aria-label="Close">Opslaan</button>
+                </form>         
+              </div>
+            </div>
+        </div>
+      </div>
+      </div>
+      </div>
+      <section id="homeBannerSection">
+        <img id="homeBanner" src="../assets/homepageBanner.jpg" width="1450" height="250" alt="">
+      </section>
+      <section id="homeButtons">
+        <article class="homeButtonsArticle">
+          <a href="sort.html" id="homeSortBtn" type="button" class="btn btn-warning" >minifigs</br>ordenen</a>
+          <img class="homepageImages" id="sortImage" height="192" width="192" src="../assets/twoArrowsSmaller.png" alt="">
+        </article>
+        <!-- VRAAG OF INLINE CSS NIET MAG -->
+        <article class="homeButtonsArticle">
+          <a href="blacklist.html" id="homeBlacklistBtn" type="button" class="btn btn-warning" >blacklist</br>bekijken</a>
+          <img class="homepageImages" id="sortImage" height="192" width="192" src="../assets/stop_transparant.png" alt="">
+        </article>
+        <article class="homeButtonsArticle">
+          <a href="figsAndSets.html" id="homeMinifigsBtn" type="button" class="btn btn-warning" >minifigs</br>bekijken</a>
+          <img class="homepageImages" id="sortImage" height="192" width="192" src="../assets/minifigHomepage.png" alt="">
 
+        </article>
+      </section>
     </main>
-    <footer class="py-3 my-4">
+    <footer id="footer" class="py-3">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
           <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
           <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Ordenen</a></li>

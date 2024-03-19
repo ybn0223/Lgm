@@ -1,0 +1,50 @@
+/* reset css toevoegen */
+body{
+    display: grid;
+    grid-template-columns: 
+    "nav",
+    "hero",
+    "main",
+    "mainBottom"
+    "footer";
+}
+#lmgProject:hover{
+    cursor: pointer;
+}
+#lmg-href{
+    text-decoration: none;
+}
+#homeBannerSection{
+    display: flex;
+    justify-content: center;
+    
+}
+#homeButtons{
+    display: flex;
+    grid-area: main;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    font-family: nunito, sans-serif;
+    padding-bottom: 1rem;
+}
+.homeButtonsArticle{
+    margin-left: 2rem;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+}
+.homepageImages{
+    margin-top: 2rem;
+}
+
+#homeBanner{
+    margin-top: -2rem;
+    margin-bottom: 2rem;
+}
+#profileTitle{
+    font-family: nunito, sans-serif;
+    font-size: 2rem;
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
