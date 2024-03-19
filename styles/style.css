@@ -1,5 +1,5 @@
 /* reset css toevoegen */
-body{
+body {
     display: grid;
     grid-template-columns: 
     "nav",
@@ -8,52 +8,9 @@ body{
     "mainBottom"
     "footer";
 }
+
 #lmgProject:hover{
     cursor: pointer;
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background-color: #f2f2f2;
-    font-family: 'Arial', sans-serif;
-}
-
-
-.nav-link {
-    color: #ff8500; 
-}
-
-
-.nav-link:hover {
-    color: #d77300; 
-    text-decoration: none;
-}
-
-.btn-primary, .btn-outline-primary {
-    background-color: #ff8500; 
-    border-color: #ff8500; 
-    color: white; 
-}
-
-.btn-primary:hover, .btn-outline-primary:hover {
-    background-color: #d77300; 
-    border-color: #d77300;
-}
-
-.btn-outline-secondary {
-    border-color: #ff8500; 
-    color: #ff8500; 
-    margin: 0 4px;
-}
-
-.btn-outline-secondary:hover {
-    background-color: #ff8500; 
-    color: white; 
 }
 
 .placeholder-giant-box {
@@ -73,14 +30,12 @@ body {
     height: 100%; 
     object-fit: cover;
 }
-  
 
-  
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
     .placeholder-giant-box {
       width: 95%;
     }
-  }
+}
 
 .card {
     border-color: black; 
@@ -89,11 +44,6 @@ body {
 .card-header {
     background-color: #ff8500; 
     color: white; 
-}
-
-footer {
-    background-color: #ebebeb; 
-    color: #333; 
 }
 
 .contact-form {
@@ -110,29 +60,10 @@ footer {
     border: 1px solid #000;
 }
 
-.btn-primary {
-    background-color: #fe0000;
-    border-color: #fe0000;
-}
-
-.btn-primary:hover {
-    background-color: #d20000; 
-    border-color: #d20000;
-}
-
-
-footer {
-    background-color: #ffed00;
-    color: #005cab;
-}
-
 .nav-link, .nav-link:hover {
     transition: color 0.2s;
 }
 
-body {
-    background-color: #e4e4e4;
-}
 .contact-form-question {
     position: absolute;
     top: 10px; 
@@ -140,12 +71,12 @@ body {
     width: 50px; 
 }
 
-
 .contact-form {
     position: relative;   
 }
+
 .card-header {
-    position: relative; /* Establishes a positioning context for absolute positioned children */
+    position: relative;
     background-color: #ff8500;
     color: white;
 }
@@ -157,20 +88,17 @@ body {
     width: 50px; 
     height: auto;
 }
-footer {
-    margin-bottom: 0;
-    padding-bottom: 0; /* Adjust padding if necessary */
-    /* Other existing styles... */
-}
 
 #lmg-href{
     text-decoration: none;
 }
+
 #homeBannerSection{
     display: flex;
     justify-content: center;
     
 }
+
 #homeButtons{
     display: flex;
     grid-area: main;
@@ -180,12 +108,14 @@ footer {
     font-family: nunito, sans-serif;
     padding-bottom: 1rem;
 }
+
 .homeButtonsArticle{
     margin-left: 2rem;
     margin-bottom: 3rem;
     display: flex;
     flex-direction: column;
 }
+
 .homepageImages{
     margin-top: 2rem;
 }
@@ -194,6 +124,7 @@ footer {
     margin-top: -2rem;
     margin-bottom: 2rem;
 }
+
 #profileTitle{
     font-family: nunito, sans-serif;
     font-size: 2rem;
