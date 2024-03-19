@@ -3,22 +3,97 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Landing</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="./styles/style.css">
+
+        <!-- login modal -->
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <!-- Custom Script -->  
   </head>
   <body>
     <header>
  <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mx-2">
           <ul class="nav col-md-auto mb-2 justify-content-center mb-md-0 mx-1">
-            <img src="../assets/testLogo.png" width="192" height="86">
+            <img src="assets/testLogo.png" width="192" height="86">
           </ul>
  <section class="col-md-3 text-end mx-1">
-            <button type="button" class="btn btn-outline-primary me-2">Login</button>
-            <button type="button" class="btn btn-primary">Sign-up</button>
+  <button type="button" class="btn btn-outline-warning me-2" data-toggle="modal" data-target="#loginModal">Inloggen</button>  
+  <button type="button" class="btn btn-warning me-2" data-toggle="modal" data-target="#registerModal">Registreer</button>
           </section>
         </nav>
     </header>
     <main>
+      <!-- login modal -->
+
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-bottom-0">
+              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-title text-center">
+              <h4>Login</h4>
+            </div>
+            <div class="d-flex flex-column text-center">
+              <form>
+                <div class="form-group mt-3">
+                  <input type="email" class="form-control" id="email1" placeholder="uw e-emailadres...">
+                </div>
+                <div class="form-group mt-3">
+                  <input type="password" class="form-control" id="password1" placeholder="uw wachtwoord...">
+                </div>
+                <button type="button" class="btn btn-warning me-2 mt-4" data-dismiss="modal" aria-label="Close">Login</button>
+              </form>            
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- register modal -->
+      <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <button type="button" class="btn-close" aria-label="Close" data-dismiss="modal" aria-label="Close"></button>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-title text-center">
+                <h4>Registreer</h4>
+              </div>
+              <div class="d-flex flex-column text-center">
+                <form>
+                  <div class="form-group mt-3">
+                    <input type="text" class="form-control" id="regFname" placeholder="uw voornaam">
+                  </div>
+                  <div class="form-group mt-3">
+                    <input type="text" class="form-control" id="regLname" placeholder="uw achternaam">
+                  </div>
+                  <div class="form-group mt-3">
+                    <input type="email" class="form-control" id="email1" placeholder="uw e-emailadres">
+                  </div>
+                  <div class="form-group mt-3">
+                    <input type="password" class="form-control" id="regPass1" placeholder="uw wachtwoord">
+                  </div>
+                  <div class="form-group mt-3">
+                    <input type="password" class="form-control" id="regPass2" placeholder="bevestig wachtwoord">
+                  </div>
+                  <button type="button" class="btn btn-outline-warning me-2 mt-4" data-dismiss="modal" aria-label="Close">Registreer</button>
+                </form>         
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
 <div class="container px-4 py-2" id="custom-cards">
           <h2 class="pb-2 border-bottom text-center">Landing</h2>
           <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
@@ -26,13 +101,10 @@
  <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg"
               style="background-image: url('https://assets.xboxservices.com/assets/20/38/203850f5-1bed-4912-b25f-193ee890c97f.jpg?n=Fortnite_GLP-Page-Hero-1084_876951_1920x1080.jpg');">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                  <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Fortnite Project</h3>
+                  <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Fortnite</h3>
                   <ul class="d-flex list-unstyled mt-auto">
                     <li class="me-auto">
   <img src="assets/lockIcon.png" alt="DeniedAccess" width="32" height="32" class="">
-                    </li>
-                    <li class="d-flex align-items-center me-3">
-                      <small>GROEP FORTNITE</small>
                     </li>
                     <li class="d-flex align-items-center">
  <small>Onbesch.</small>
@@ -41,17 +113,15 @@
                 </div>
               </div>
             </div>
-            <div class="col">
-              <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" 
-              style="background-image: url('https://cdn.rebrickable.com/media/thumbs/mocs/moc-121727.jpg/1000x800.jpg?1680561370.2793365');">
+            <div class="col"> 
+              <a href="pages/homepage.html" id="lmg-href">
+              <div class="card card-cover h-80 overflow-hidden text-bg-dark rounded-4 shadow-lg" 
+              style="background-image: url(./assets/legoMinifigsProject2.jpeg);">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                  <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">LMG Project</h3>
+                  <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">LMG</h3>
                   <ul class="d-flex list-unstyled mt-auto">
                     <li class="me-auto">
   <img src="assets/checkmarkIcon.png" alt="AccessGranted" width="32" height="32" class="">
-                    </li>
-                    <li class="d-flex align-items-center me-3">
-                      <small>LMG</small>
                     </li>
                     <li class="d-flex align-items-center">
  <small>Beschikbaar</small>
@@ -59,18 +129,16 @@
                   </ul>
                 </div>
               </div>
+              </a>
             </div>
             <div class="col">
               <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" 
-              style="background-image: url('https://assets-prd.ignimgs.com/2022/07/29/lotr-fellowship-1659123075559.jpg');">
+              style="background-image: url(/assets/LOTR.jpeg);">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-                  <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">LOTR Project</h3>
+                  <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">LOTR</h3>
                   <ul class="d-flex list-unstyled mt-auto">
                     <li class="me-auto">
   <img src="assets/lockIcon.png" alt="DeniedAccess" width="32" height="32" class="">
-                    </li>
-                    <li class="d-flex align-items-center me-3">
- <small>GROEP LOTR</small>
                     </li>
                     <li class="d-flex align-items-center">
   <small>Onbeschik.</small>
@@ -85,15 +153,12 @@
           <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
             <div class="col">
               <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" 
-              style="background-image: url('https://fifpro.org/media/mmqp2i4o/players-web-banner-mens-2500x1600-1.jpg?rxy=0.49769678655660377,0.5549325340231944&width=1600&height=1024&rnd=133498262419600000');">
+              style="background-image: url(/assets/fifa4.jpg);">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                  <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">FIFA Project</h3>
+                  <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">FIFA</h3>
                   <ul class="d-flex list-unstyled mt-auto">
                     <li class="me-auto">
   <img src="assets/lockIcon.png" alt="DeniedAccess" width="32" height="32" class="">
-                    </li>
-                    <li class="d-flex align-items-center me-3">
-<small>GROEP FIFA</small>
                     </li>
                     <li class="d-flex align-items-center">
 <small>Onbesch.</small>
@@ -107,13 +172,10 @@
               <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" 
               style="background-image: url('https://super.abril.com.br/wp-content/uploads/2019/12/reproducao_pokemon_episodio_pokemon_centenas_criancas_hospital.jpg?quality=90&strip=info&w=675&h=440&crop=1');">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                  <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Pokemon Project</h3>
+                  <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Pokemon</h3>
                   <ul class="d-flex list-unstyled mt-auto">
                     <li class="me-auto">
  <img src="assets/lockIcon.png" alt="DeniedAccess" width="32" height="32" class="">
-                    </li>
-                    <li class="d-flex align-items-center me-3">
-<small>GROEP Pokemon</small>
                     </li>
                     <li class="d-flex align-items-center">
  <small>Onbesch.</small>
@@ -125,9 +187,9 @@
             </div>
             <div class="col">
               <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" 
-              style="background-image: url('https://cdn.thewirecutter.com/wp-content/media/2023/06/cardgames-2048px-9173-2x1-1.jpg?auto=webp&quality=75&crop=2:1&width=1024');">
+              style="background-image: url(./assets/MTG.jpeg); background-repeat: no-repeat;">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-                  <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">MTG Project</h3>
+                  <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">MTG</h3>
                   <ul class="d-flex list-unstyled mt-auto">
                     <li class="me-auto">
  <img src="assets/lockIcon.png" alt="DeniedAccess" width="32" height="32" class="">
