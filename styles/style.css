@@ -1,3 +1,4 @@
+/* body{
 /* reset css toevoegen */
 body {
     display: grid;
@@ -87,6 +88,11 @@ body {
     right: 10px; 
     width: 50px; 
     height: auto;
+}
+footer {
+    margin-bottom: 0;
+    padding-bottom: 0;
+   
 }
 
 #lmg-href{
