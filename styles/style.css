@@ -14,13 +14,10 @@ body{
 #lmg-href{
     text-decoration: none;
 }
-#heroText{
-    grid-column: main;
-    flex-wrap: wrap;
-    text-align: center;
-    font-family: nunito, sans-serif;
-    font-weight: bold;
-    font-size: 2rem;
+#homeBannerSection{
+    display: flex;
+    justify-content: center;
+    
 }
 #homeButtons{
     display: flex;
@@ -33,6 +30,7 @@ body{
 }
 .homeButtonsArticle{
     margin-left: 2rem;
+    margin-bottom: 3rem;
     display: flex;
     flex-direction: column;
 }
@@ -40,5 +38,7 @@ body{
     margin-top: 2rem;
 }
 
-/* login modal */
-  
+#homeBanner{
+    margin-top: -2rem;
+    margin-bottom: 2rem;
+}

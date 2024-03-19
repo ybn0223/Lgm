@@ -41,20 +41,21 @@
         <br>
     </header>
     <main>
-      <p id="heroText"></p>
+      <section id="homeBannerSection">
+        <img id="homeBanner" src="../assets/homepageBanner.jpg" width="1450" height="250" alt="">
+      </section>
       <section id="homeButtons">
         <article class="homeButtonsArticle">
-          <button type="button" class="btn btn-outline-warning" id="homeSortBtn">ordenen</button>
-          <img class="homepageImages" id="sortImage" height="192" width="192" src="../assets/arrow.png" alt="">
+          <a href="sort.html" id="homeSortBtn" type="button" class="btn btn-warning" >minifigs</br>ordenen</a>
+          <img class="homepageImages" id="sortImage" height="192" width="192" src="../assets/twoArrowsSmaller.png" alt="">
         </article>
         <!-- VRAAG OF INLINE CSS NIET MAG -->
         <article class="homeButtonsArticle">
-          <button type="button" class="btn btn-outline-warning" id="homeBlacklistBtn">blacklist</button>
+          <a href="blacklist.html" id="homeBlacklistBtn" type="button" class="btn btn-warning" >blacklist</br>bekijken</a>
           <img class="homepageImages" id="sortImage" height="192" width="192" src="../assets/stop_transparant.png" alt="">
-
         </article>
         <article class="homeButtonsArticle">
-          <button type="button" class="btn btn-outline-warning" id="homeMinifigsBtn">minifigs</button>
+          <a href="figsAndSets.html" id="homeMinifigsBtn" type="button" class="btn btn-warning" >minifigs</br>bekijken</a>
           <img class="homepageImages" id="sortImage" height="192" width="192" src="../assets/minifigHomepage.png" alt="">
 
         </article>
@@ -129,7 +130,7 @@
       </div>
 
     </main>
-    <footer id="footer" class="py-3 my-4 fixed-bottom">
+    <footer id="footer" class="py-3">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
           <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
           <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Ordenen</a></li>
@@ -137,7 +138,7 @@
           <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Blacklist</a></li>
           <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Contact</a></li>
         </ul>
-        <p class="text-center text-body-secondary fixed-bottom">LMG © 2024</p>
+        <p class="text-center text-body-secondary">LMG © 2024</p>
       </footer>
 </body>
 </html>
