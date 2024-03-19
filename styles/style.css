@@ -1,5 +1,4 @@
-/* reset css toevoegen */
-body{
+/* body{
     display: grid;
     grid-template-columns: 
     "nav",
@@ -145,7 +144,7 @@ body {
     position: relative;   
 }
 .card-header {
-    position: relative; /* Establishes a positioning context for absolute positioned children */
+    position: relative;
     background-color: #ff8500;
     color: white;
 }
@@ -159,8 +158,8 @@ body {
 }
 footer {
     margin-bottom: 0;
-    padding-bottom: 0; /* Adjust padding if necessary */
-    /* Other existing styles... */
+    padding-bottom: 0;
+   
 }
 
 #lmg-href{
@@ -199,4 +198,4 @@ footer {
     font-size: 2rem;
     margin-left: 1rem;
     margin-top: 1rem;
-}
+} */
