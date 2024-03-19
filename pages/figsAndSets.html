@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Minifigs</title>
+    <link rel="stylesheet" href="../styles/reset.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+  <body>
+    <header>
+        <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+          <ul class="nav col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><img src="../assets/iconLogo.svg" width="48" class="ms-3"></li>
+            <li><a href="homepage.html" class="nav-link px-2">Home</a></li>
+            <li><a href="sort.html" class="nav-link px-2">Ordenen</a></li>
+            <li><a href="figsAndSets.html" class="nav-link px-2">Collectie</a></li>
+            <li><a href="blacklist.html" class="nav-link px-2">Blacklist</a></li>
+            <li><a href="contact.html" class="nav-link px-2">Contact</a></li>
+          </ul>
+          <section class="col-md-3 text-end">
+            <button type="button" class="btn btn-outline-primary me-2">Profile</button>
+            <button type="button" class="btn btn-primary me-2">Log out</button>
+          </section>
+        </nav>
+        <br>
+    </header>
+    <main>
+      <section class="container">
+        <h2 class="text-center mb-5">Collectie</h2>
+        <section class="table-responsive">
+            <table class="table table-bordered table-warning">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Naam</th>
+                        <th>Foto</th>
+                        <th>Sets</th>
+                        <th>Verwijder</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Politieman</td>
+                        <td>  <img src="../assets/example.jpg" alt="politieman" width="192"> </td>
+                        <td>politiekantoor, straat, veiligheidsacademie</td>
+                        <td><button type="button" class="btn"><img src="../assets/deleteButton.png" width="48"></button></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Piloot</td>
+                        <td><img src="../assets/example2.jpg" width="192"></td>
+                        <td>vliegtuig, luchthaven</td>
+                        <td><button type="button" class="btn"><img src="../assets/deleteButton.png" width="48"></button></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Tovenaar</td>
+                        <td><img src="../assets/example1.jpg" width="192"></td>
+                        <td>kasteel</td>
+                        <td><button type="button" class="btn"><img src="../assets/deleteButton.png" width="48"></button></td>
+                    </tr>
+                </tbody>
+            </table>
+          </section>
+      </section>
+      </main>
+      <footer class="py-3 mt-5">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+          <li class="nav-item"><a href="homepage.html" class="nav-link px-2 text-body-secondary">Home</a></li>
+          <li class="nav-item"><a href="sort.html" class="nav-link px-2 text-body-secondary">Ordenen</a></li>
+          <li class="nav-item"><a href="figsAndSets.html" class="nav-link px-2 text-body-secondary">Collectie</a></li>
+          <li class="nav-item"><a href="blacklist.html" class="nav-link px-2 text-body-secondary">Blacklist</a></li>
+          <li class="nav-item"><a href="contact.html" class="nav-link px-2 text-body-secondary">Contact</a></li>
+        </ul>
+        <section class="d-flex flex-column justify-content-center align-items-center">
+          <img src="../assets/testLogo.png" width="192" height="86" class="mb-2 rounded">
+          <p class="text-center text-body-secondary">LMG © 2024</p>
+        </section>
+      </footer>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
