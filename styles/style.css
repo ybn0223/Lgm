@@ -137,3 +137,13 @@ footer {
     margin-left: 1rem;
     margin-top: 1rem;
 }
+#sortFigTitle{
+    font-family: nunito;
+    font-size: 3rem;
+}
+.setCardSortSelect{
+    border: none;
+    background: none;
+    padding: 0;
+    color: transparent;
+}
