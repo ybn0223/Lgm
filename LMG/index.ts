@@ -15,11 +15,15 @@ app.set('views', path.join(__dirname, "views"));
 app.set("port", process.env.PORT || 3000);
 
 app.get("/", (req, res) => {
-    res.render("index", {
-        title: "Hello World",
-        message: "Hello World"
-    })
+    res.render("index")
 });
+
+app.get("/home", (req, res) => {
+    res.render("home")
+});
+
+
+// app.use('/images', express.static('public/images'));
 
 app.listen(app.get("port"), () => {
     console.log("Server started on http://localhost:" + app.get('port'));
