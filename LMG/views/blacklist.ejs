@@ -18,23 +18,13 @@
   </head>
   <body>
     <header>
-      <nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-        <ul class="nav col-md-auto mb-2 justify-content-center mb-md-0">
-          <li><img src="../assets/iconLogo.svg" width="48" class="ms-3"></li>
-          <li><a href="home" class="nav-link px-2">Home</a></li>
-          <li><a href="sort.html" class="nav-link px-2">Ordenen</a></li>
-          <li><a href="figsAndSets.html" class="nav-link px-2">Mijn Lijst</a></li>
-          <li><a href="blacklist.html" class="nav-link px-2">Blacklist</a></li>
-          <li><a href="contact.html" class="nav-link px-2">Contact</a></li>
-        </ul>
-          <section class="col-md-3 text-end">
-            <button type="button" class="btn btn-warning me-2" data-toggle="modal" data-target="#profileModal">profiel</button>
-            <a href="../index.html" id="logoutbtn" type="button" class="btn btn-outline-warning me-2">log uit</a>
-          </section>
-        </nav>
-        <br>
-    </header>
-    <main>
+      <!-- navbar -->
+     <%- include("partials/navbar") %>
+ 
+     </header>
+     <main>
+       <!-- profile modal -->
+       <%- include("partials/profile") %>
       <!-- profile modal -->
       <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -139,7 +129,7 @@
           <li class="nav-item"><a href="contact.html" class="nav-link px-2 text-body-secondary">Contact</a></li>
         </ul>
         <section class="d-flex flex-column justify-content-center align-items-center">
-          <img src="../assets/testLogo.png" width="192" height="86" class="mb-2 rounded">
+          <img src="images/testLogo.png" width="192" height="86" class="mb-2 rounded">
           <p class="text-center text-body-secondary">LMG © 2024</p>
         </section>
       </footer>
