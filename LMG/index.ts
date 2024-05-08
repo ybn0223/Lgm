@@ -32,6 +32,18 @@ app.get("/summary", (req, res) => {
 app.get("/sets", (req, res) => {
     res.render("sets")
 });
+
+app.get("/sort", (req, res) => {
+    res.render("sort")
+});
+
+app.get("/contact", (req, res) => {
+    res.render("contact")
+});
+
+app.get("/collection", (req, res) => {
+    res.render("collection")
+});
 // app.use('/images', express.static('public/images'));
 
 app.listen(app.get("port"), () => {
