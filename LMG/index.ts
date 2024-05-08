@@ -26,6 +26,9 @@ app.get("/home", (req, res) => {
     res.render("home")
 });
 
+app.get("/summary", (req, res) => {
+    res.render("summary")
+});
 // app.use('/images', express.static('public/images'));
 
 app.listen(app.get("port"), () => {
