@@ -1,6 +1,8 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import path from "path";
+import {connect} from "./database";
+
 
 dotenv.config();
 
@@ -46,6 +48,7 @@ app.get("/collection", (req, res) => {
 });
 // app.use('/images', express.static('public/images'));
 
-app.listen(app.get("port"), () => {
+app.listen(app.get("port"), async () => {
+    await connect();
     console.log("Server started on http://localhost:" + app.get('port'));
 });
