@@ -1,30 +1,30 @@
 import {Collection, MongoClient} from "mongodb";
 import { Minifig, Set } from "./types";
 import dotenv from "dotenv";
-import fetch from 'node-fetch'; // Import fetch function
-import { request as httpRequest } from 'https';
-import { IncomingMessage } from 'http';
-import { parse as parseUrl } from 'url';
-import { stringify as stringifyQuery } from 'querystring';
 
 
-async function fetchData(url: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-        const options = parseUrl(url);
-        const req = httpRequest(options, (res: IncomingMessage) => {
-            let data = '';
-            res.on('data', (chunk) => {
-                data += chunk;
-            });
-            res.on('end', () => {
-                resolve(JSON.parse(data));
-            });
-        });
-        req.on('error', (error) => {
-            reject(error);
-        });
-        req.end();
-    });
+const apiKey = process.env.REBRICKABLE_API_KEY;
+
+async function fetchData(url: string) {
+    try {
+        const response = await fetch(`${url}?key=${apiKey}`);
+        const data = await response.json();
+        let results = data.results;
+
+        // Check if there is a "next" URL in the response
+        let nextUrl = data.next;
+        while (nextUrl) {
+            const nextPageResponse = await fetch(nextUrl);
+            const nextPageData = await nextPageResponse.json();
+            results = results.concat(nextPageData.results);
+            nextUrl = nextPageData.next;
+        }
+
+        return results;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return null;
+    }
 }
 
 
@@ -40,8 +40,8 @@ export const setsCollection: Collection<Set> = client.db("lego").collection<Set>
 
 
 async function seed(){
-    const minifigsData : any = await fetchData("https://rebrickable.com/api/v3/lego/minifigs/?key=156352079ec5150f9017d91bd04447f1");
-    const setsData : any = await fetchData("https://rebrickable.com/api/v3/lego/sets/?key=156352079ec5150f9017d91bd04447f1");
+    const minifigsData : any = await fetchData("https://rebrickable.com/api/v3/lego/minifigs/");
+    const setsData : any = await fetchData("https://rebrickable.com/api/v3/lego/sets/");
 
     const minifigs: Minifig[] = minifigsData.results;
     const sets: Set[] = setsData.results;

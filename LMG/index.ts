@@ -20,6 +20,11 @@ app.get("/", (req, res) => {
     res.render("index")
 });
 
+// Route handler for POST request to handle registration
+app.post('/register', (req, res) => {
+    console.log(req.body);
+  });
+  
 app.get("/blacklist", (req, res) => {
     res.render("blacklist")
 })
