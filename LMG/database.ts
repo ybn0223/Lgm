@@ -44,7 +44,7 @@ async function seed(){
     const setsData : any = await fetchData("https://rebrickable.com/api/v3/lego/sets/?key=156352079ec5150f9017d91bd04447f1");
 
     const minifigs: Minifig[] = minifigsData.results;
-    const sets: Set[] = minifigsData.results;
+    const sets: Set[] = setsData.results;
 
     if (await minifigsCollection.countDocuments() === 0) {
         await minifigsCollection.insertMany(minifigs);

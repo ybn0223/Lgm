@@ -1,9 +1,9 @@
 export interface Minifig {
-    set_num:          string;
+    minifig_num:      string;
     name:             string;
     num_parts:        number;
-    set_img_url:      string;
-    set_url:          string;
+    minifig_img_url:  string;
+    minifig_url:      string;
     last_modified_dt: Date;
 }
 
