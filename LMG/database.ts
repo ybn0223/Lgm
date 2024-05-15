@@ -2,10 +2,29 @@ import {Collection, MongoClient} from "mongodb";
 import { Minifig, Set } from "./types";
 import dotenv from "dotenv";
 import fetch from 'node-fetch'; // Import fetch function
+import { request as httpRequest } from 'https';
+import { IncomingMessage } from 'http';
+import { parse as parseUrl } from 'url';
+import { stringify as stringifyQuery } from 'querystring';
 
-async function fetchData(url : string) {
-    const response = await fetch(url);
-    return response.json();
+
+async function fetchData(url: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+        const options = parseUrl(url);
+        const req = httpRequest(options, (res: IncomingMessage) => {
+            let data = '';
+            res.on('data', (chunk) => {
+                data += chunk;
+            });
+            res.on('end', () => {
+                resolve(JSON.parse(data));
+            });
+        });
+        req.on('error', (error) => {
+            reject(error);
+        });
+        req.end();
+    });
 }
 
 
@@ -28,11 +47,11 @@ async function seed(){
     const sets: Set[] = minifigsData.results;
 
     if (await minifigsCollection.countDocuments() === 0) {
-        await minifigsCollection.insertMany(minifigsData);
+        await minifigsCollection.insertMany(minifigs);
     }
 
     if (await setsCollection.countDocuments() === 0) {
-        await setsCollection.insertMany(setsData);
+        await setsCollection.insertMany(sets);
     }
 }
 
