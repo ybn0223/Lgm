@@ -1,25 +1,33 @@
 import {Collection, MongoClient} from "mongodb";
 import { Minifig, Set } from "./types";
 import dotenv from "dotenv";
+dotenv.config();
 
-
-const apiKey = process.env.REBRICKABLE_API_KEY;
+const apiKey : string = process.env.REBRICKABLE_API_KEY ?? "";
+const rateLimitDelayMs = 3000; // Adjust this value based on the API's rate limits
 
 async function fetchData(url: string) {
     try {
         const response = await fetch(`${url}?key=${apiKey}`);
         const data = await response.json();
+        if (!data.results) {
+            throw new Error('No results found in API response');
+        }
         let results = data.results;
 
         // Check if there is a "next" URL in the response
         let nextUrl = data.next;
+        let i : number = 0;
         while (nextUrl) {
-            const nextPageResponse = await fetch(nextUrl);
-            const nextPageData = await nextPageResponse.json();
-            results = results.concat(nextPageData.results);
-            nextUrl = nextPageData.next;
+            await new Promise(resolve => setTimeout(resolve, rateLimitDelayMs)); //rate limit
+            console.log(i);
+            i++;
+            const nextPageResponse = await fetch(nextUrl); //fetches next page of api
+            const nextPageData = await nextPageResponse.json(); 
+            results = results.concat(nextPageData.results);// concat to previous api call results
+            nextUrl = nextPageData.next; // update the new page number
         }
-
+        console.log(results);
         return results;
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -31,7 +39,6 @@ async function fetchData(url: string) {
 //alle database gerelateerde code komt hier te staan
 
 
-dotenv.config();
 const uri : string = process.env.MONGODB_URI ?? "mongodb://localhost:27017";
 console.log(uri);
 const client = new MongoClient(uri);
@@ -40,17 +47,18 @@ export const setsCollection: Collection<Set> = client.db("lego").collection<Set>
 
 
 async function seed(){
-    const minifigsData : any = await fetchData("https://rebrickable.com/api/v3/lego/minifigs/");
-    const setsData : any = await fetchData("https://rebrickable.com/api/v3/lego/sets/");
 
-    const minifigs: Minifig[] = minifigsData.results;
-    const sets: Set[] = setsData.results;
 
     if (await minifigsCollection.countDocuments() === 0) {
+        const minifigsData : any = await fetchData("https://rebrickable.com/api/v3/lego/minifigs/");
+        const minifigs: Minifig[] = minifigsData;
+        console.log('Minifigs data:', minifigs);
         await minifigsCollection.insertMany(minifigs);
     }
 
     if (await setsCollection.countDocuments() === 0) {
+        const setsData : any = await fetchData("https://rebrickable.com/api/v3/lego/sets/");
+        const sets: Set[] = setsData;
         await setsCollection.insertMany(sets);
     }
 }
