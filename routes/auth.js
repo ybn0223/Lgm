@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // routes/auth.ts
 const express_1 = require("express");
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const database_1 = require("../database");
 const router = (0, express_1.Router)();
 router.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -43,7 +43,7 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         if (!user) {
             return res.status(400).send('Invalid email or password');
         }
-        const isMatch = yield bcrypt_1.default.compare(password, user.password);
+        const isMatch = yield bcryptjs_1.default.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).send('Invalid email or password');
         }

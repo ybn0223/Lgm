@@ -1,6 +1,6 @@
 // routes/auth.ts
 import { Router, Request, Response } from 'express';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { usersCollection, registerUser } from '../database';
 
 const router = Router();

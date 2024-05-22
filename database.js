@@ -16,7 +16,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerUser = exports.exit = exports.connect = exports.Sets = exports.Minifigs = exports.usersCollection = exports.setsCollection = exports.minifigsCollection = void 0;
 const mongodb_1 = require("mongodb");
 const dotenv_1 = __importDefault(require("dotenv"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 dotenv_1.default.config();
 const apiKey = (_a = process.env.REBRICKABLE_API_KEY) !== null && _a !== void 0 ? _a : "";
 const rateLimitDelayMs = 3000; // Adjust this value based on the API's rate limits
@@ -58,7 +58,7 @@ function registerUser(firstName, lastName, email, password) {
             if (userExists) {
                 return 'User already exists';
             }
-            const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+            const hashedPassword = yield bcryptjs_1.default.hash(password, 10);
             const newUser = {
                 firstName,
                 lastName,

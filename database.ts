@@ -1,7 +1,7 @@
 import { Collection, MongoClient } from "mongodb";
 import { Minifig, Set, IUser } from "./types/types";
 import dotenv from "dotenv";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
