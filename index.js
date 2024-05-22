@@ -23,7 +23,7 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 app.set('views', path_1.default.join(__dirname, "views"));
-app.set("port", process.env.PORT || 3000);
+app.set("port", process.env.PORT || 10000);
 app.get("/", (req, res) => {
     res.render("index");
 });
