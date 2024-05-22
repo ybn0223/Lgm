@@ -38,7 +38,6 @@ app.set("port", process.env.PORT || 10000);
 app.get("/", (req , res) => {
     res.render("index", { user: req.session.user }
     );
-    console.log({user: req.session.user});
 });
 
 // Use the auth routes for handling registration and login
