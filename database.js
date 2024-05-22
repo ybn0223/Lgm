@@ -13,9 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.exit = exports.connect = exports.Sets = exports.Minifigs = exports.setsCollection = exports.minifigsCollection = void 0;
+exports.registerUser = exports.exit = exports.connect = exports.Sets = exports.Minifigs = exports.usersCollection = exports.setsCollection = exports.minifigsCollection = void 0;
 const mongodb_1 = require("mongodb");
 const dotenv_1 = __importDefault(require("dotenv"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 dotenv_1.default.config();
 const apiKey = (_a = process.env.REBRICKABLE_API_KEY) !== null && _a !== void 0 ? _a : "";
 const rateLimitDelayMs = 3000; // Adjust this value based on the API's rate limits
@@ -32,10 +33,10 @@ function fetchData(url) {
             let nextUrl = data.next;
             let i = 0;
             while (nextUrl) {
-                yield new Promise(resolve => setTimeout(resolve, rateLimitDelayMs)); //rate limit
+                yield new Promise(resolve => setTimeout(resolve, rateLimitDelayMs)); // rate limit
                 console.log(i);
                 i++;
-                const nextPageResponse = yield fetch(nextUrl); //fetches next page of api
+                const nextPageResponse = yield fetch(nextUrl); // fetches next page of api
                 const nextPageData = yield nextPageResponse.json();
                 results = results.concat(nextPageData.results); // concat to previous api call results
                 nextUrl = nextPageData.next; // update the new page number
@@ -49,12 +50,38 @@ function fetchData(url) {
         }
     });
 }
-//alle database gerelateerde code komt hier te staan
+// Account related code here
+function registerUser(firstName, lastName, email, password) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const userExists = yield exports.usersCollection.findOne({ email });
+            if (userExists) {
+                return 'User already exists';
+            }
+            const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+            const newUser = {
+                firstName,
+                lastName,
+                email,
+                password: hashedPassword,
+            };
+            yield exports.usersCollection.insertOne(newUser);
+            return 'User registered successfully';
+        }
+        catch (error) {
+            console.error('Error registering user:', error);
+            return 'Server error';
+        }
+    });
+}
+exports.registerUser = registerUser;
+// All database related code comes here
 const uri = (_b = process.env.MONGODB_URI) !== null && _b !== void 0 ? _b : "mongodb://localhost:27017";
 console.log(uri);
 const client = new mongodb_1.MongoClient(uri);
 exports.minifigsCollection = client.db("lego").collection("minifigs");
 exports.setsCollection = client.db("lego").collection("sets");
+exports.usersCollection = client.db("lego").collection("users");
 function seed() {
     return __awaiter(this, void 0, void 0, function* () {
         if ((yield exports.minifigsCollection.countDocuments()) === 0) {

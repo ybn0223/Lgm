@@ -15,44 +15,58 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
+const express_session_1 = __importDefault(require("express-session"));
 const database_1 = require("./database");
+const auth_1 = __importDefault(require("./routes/auth"));
 dotenv_1.default.config();
+var MongoDBStore = require('connect-mongodb-session')(express_session_1.default);
+const store = new MongoDBStore({
+    uri: process.env.MONGODB_URI || "mongodb://localhost:27017/lego",
+    collection: 'sessions'
+});
+store.on('error', function (error) {
+    console.error(error);
+});
 const app = (0, express_1.default)();
 app.set("view engine", "ejs");
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 app.set('views', path_1.default.join(__dirname, "views"));
+app.use((0, express_session_1.default)({
+    secret: 'your_secret_key', // Replace with your own secret key
+    resave: false,
+    saveUninitialized: false,
+    store: store
+}));
 app.set("port", process.env.PORT || 10000);
 app.get("/", (req, res) => {
-    res.render("index");
+    res.render("index", { user: req.session.user });
+    console.log({ user: req.session.user });
 });
-// Route handler for POST request to handle registration
-app.post('/register', (req, res) => {
-    console.log(req.body);
-});
+// Use the auth routes for handling registration and login
+app.use(auth_1.default);
 app.get("/blacklist", (req, res) => {
-    res.render("blacklist");
+    res.render("blacklist", { user: req.session.user });
 });
 app.get("/home", (req, res) => {
-    res.render("home");
+    res.render("home", { user: req.session.user });
 });
 app.get("/summary", (req, res) => {
-    res.render("summary");
+    res.render("summary", { user: req.session.user });
 });
 app.get("/sets", (req, res) => {
-    res.render("sets");
+    res.render("sets", { user: req.session.user });
 });
 app.get("/sort", (req, res) => {
-    res.render("sort");
+    res.render("sort", { user: req.session.user });
 });
 app.get("/contact", (req, res) => {
-    res.render("contact");
+    res.render("contact", { user: req.session.user });
 });
 app.get("/collection", (req, res) => {
-    res.render("collection");
+    res.render("collection", { user: req.session.user });
 });
-// app.use('/images', express.static('public/images'));
 app.listen(app.get("port"), () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, database_1.connect)();
     console.log("Server started on http://localhost:" + app.get('port'));

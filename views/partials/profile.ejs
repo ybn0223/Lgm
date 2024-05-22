@@ -17,7 +17,12 @@
                         <h5>voornaam</h5>
                       </div>
                       <div class="">
-                        <input class="form-control text-center" type="text" value="John" aria-label="Disabled input example" disabled>
+                        <% if (user) { %>
+                          <input class="form-control text-center" type="text" value="<%= user.firstName %>" aria-label="Disabled input example">
+
+                        <% } else{ %>
+                          <input class="form-control text-center" type="text" value="john" aria-label="Disabled input example">
+                       <% } %>
                       </div>
                       <hr>
                       <div class="text-center">
@@ -25,7 +30,12 @@
                           <h5>achternaam</h5>
                         </div>
                         <div class="">
-                          <input class="form-control text-center" type="text" value="Doe" aria-label="Disabled input example" disabled>
+                          <% if (user) { %>
+                            <input class="form-control text-center" type="text" value="<%= user.lastName %>" aria-label="Disabled input example">
+  
+                          <% } else{ %>
+                            <input class="form-control text-center" type="text" value="Doe" aria-label="Disabled input example">
+                         <% } %>
                         </div>
                         <hr>
                         <div class="text-center">
@@ -33,7 +43,12 @@
                           <h5>e-mail</h5>
                         </div>
                         <div class="">
-                          <input class="form-control text-center" type="text" value="JohnDoe123@outlook.com" aria-label="Disabled input example" disabled>
+                          <% if (user) { %>
+                            <input class="form-control text-center" type="text" value="<%= user.email %>" aria-label="Disabled input example">
+  
+                          <% } else{ %>
+                            <input class="form-control text-center" type="text" value="johnDoe@hotmail.com" aria-label="Disabled input example">
+                         <% } %>
                         </div>
                         <hr>
                         <div class="form-group mt-3">
