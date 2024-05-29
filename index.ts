@@ -2,9 +2,9 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import path from "path";
 import session from "express-session";
-import { connect } from "./database";
+import { connect, minifigsCollection } from "./database";
 import authRoutes from './routes/auth';
-import minifigsRoutes from './routes/minifigs';
+import { ensureAuthenticated, ensureNotAuthenticated } from './middlewares/authMiddleware';
 
 dotenv.config();
 var MongoDBStore = require('connect-mongodb-session')(session);
@@ -44,34 +44,43 @@ app.get("/", (req , res) => {
 // Use the auth routes for handling registration and login
 app.use(authRoutes);
 
-// Use the minifigs routes
-app.use(minifigsRoutes);
-
-app.get("/blacklist", (req, res) => {
+app.get("/blacklist",ensureAuthenticated, (req, res) => {
     res.render("blacklist", { user: req.session.user });
 });
 
-app.get("/home", (req, res) => {
+app.get("/home", ensureAuthenticated, (req, res) => {
     res.render("home", { user: req.session.user });
 });
 
-app.get("/summary", (req, res) => {
+app.get("/summary", ensureAuthenticated, (req, res) => {
     res.render("summary", { user: req.session.user });
 });
 
-app.get("/sets", (req, res) => {
+app.get("/sets", ensureAuthenticated, (req, res) => {
     res.render("sets", { user: req.session.user });
 });
 
-app.get("/sort", (req, res) => {
-    res.render("sort", { user: req.session.user });
-});
+app.get("/sort", ensureAuthenticated, async (req, res) => {
+    let minifigsShow = [];
+    try {
+      const minifigs = await minifigsCollection.aggregate([
+        { $match: { set_img_url: { $exists: true }, name: { $exists: true }, set_num: { $exists: true } } },
+        { $sample: { size: 10 } }
+      ]).toArray();
+  
+      minifigsShow = minifigs;
+    } catch (error) {
+      console.error('Error fetching minifigs:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+    res.render("sort", { minifigsShow });
+  }); 
 
-app.get("/contact", (req, res) => {
+app.get("/contact", ensureAuthenticated, (req, res) => {
     res.render("contact", { user: req.session.user });
 });
 
-app.get("/collection", (req, res) => {
+app.get("/collection", ensureAuthenticated, (req, res) => {
     res.render("collection", { user: req.session.user });
 });
 

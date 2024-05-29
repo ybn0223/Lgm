@@ -147,3 +147,12 @@ footer {
   padding: 0;
   color: transparent;
 }
+
+.minifig-image-container {
+  max-width: 300px; /* Adjust the maximum width as needed */
+  margin: 0 auto; /* Center the container */
+}
+.minifig-image {
+  max-width: 100%;
+  height: auto;
+}
