@@ -22,7 +22,7 @@
             <button type="button" class="btn btn-outline-warning me-2" data-toggle="modal" data-target="#loginModal">Inloggen</button>  
             <button type="button" class="btn btn-warning me-2" data-toggle="modal" data-target="#registerModal">Registreer</button>
           <% } %>
-        </section>2
+        </section>
       </nav>
     </header>
     <main>
@@ -35,9 +35,9 @@
       <!-- profile modal -->
       <%- include("partials/profile") %>
 
-      <% if (!userExists) {
-                <button type="button" class="btn btn-warning me-2" data-toggle="modal" data-target="#profileModal">profiel</button>
-      } %>
+      <% if (!userExists) { %>
+        <button type="button" class="btn btn-warning me-2" data-toggle="modal" data-target="#profileModal">profiel</button>
+      <% } %>
 
       <section class="container px-4 py-2" id="custom-cards">
         <h2 class="pb-2 border-bottom text-center">Landing</h2>
