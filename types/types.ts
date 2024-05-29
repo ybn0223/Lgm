@@ -22,4 +22,9 @@ export interface Set {
 export interface IUser {
     username: string;
     password: string;
-  }  
+  } 
+
+export interface IUserMinifigsCollection{
+    userId: string,
+    minifigs: Minifig
+}

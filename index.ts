@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import path from "path";
 import session from "express-session";
-import { connect, minifigsCollection } from "./database";
+import { connect, minifigsCollection, userMinifigCollection } from "./database";
 import authRoutes from './routes/auth';
 import { ensureAuthenticated, ensureNotAuthenticated } from './middlewares/authMiddleware';
 
@@ -35,7 +35,7 @@ app.use(session({
 
 app.set("port", process.env.PORT || 10000);
 
-app.get("/", (req , res) => {
+app.get("/" ,(req , res) => {
     let userExists : boolean = true;
     res.render("index", { user: req.session.user, userExists }
     );
@@ -44,9 +44,21 @@ app.get("/", (req , res) => {
 // Use the auth routes for handling registration and login
 app.use(authRoutes);
 
-app.get("/blacklist",ensureAuthenticated, (req, res) => {
-    res.render("blacklist", { user: req.session.user });
-});
+app.get("/blacklist",ensureAuthenticated, async (req, res) => {
+    let minifigsShow = [];
+    try {
+      const minifigs = await minifigsCollection.aggregate([
+        { $match: { set_img_url: { $exists: true }, name: { $exists: true }, set_num: { $exists: true } } },
+        { $sample: { size: 10 } }
+      ]).toArray();
+  
+      minifigsShow = minifigs;
+    } catch (error) {
+      console.error('Error fetching minifigs:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+    const user = req.session.user;
+    res.render("blacklist", { minifigsShow, user});});
 
 app.get("/home", ensureAuthenticated, (req, res) => {
     res.render("home", { user: req.session.user });
@@ -56,9 +68,21 @@ app.get("/summary", ensureAuthenticated, (req, res) => {
     res.render("summary", { user: req.session.user });
 });
 
-app.get("/sets", ensureAuthenticated, (req, res) => {
-    res.render("sets", { user: req.session.user });
-});
+app.get("/sets", ensureAuthenticated, async (req, res) => {
+    let minifigsShow = [];
+    try {
+      const minifigs = await minifigsCollection.aggregate([
+        { $match: { set_img_url: { $exists: true }, name: { $exists: true }, set_num: { $exists: true } } },
+        { $sample: { size: 10 } }
+      ]).toArray();
+  
+      minifigsShow = minifigs;
+    } catch (error) {
+      console.error('Error fetching minifigs:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+    const user = req.session.user;
+    res.render("sets", { minifigsShow, user});});
 
 app.get("/sort", ensureAuthenticated, async (req, res) => {
     let minifigsShow = [];
@@ -73,15 +97,55 @@ app.get("/sort", ensureAuthenticated, async (req, res) => {
       console.error('Error fetching minifigs:', error);
       return res.status(500).json({ error: 'Internal Server Error' });
     }
-    res.render("sort", { minifigsShow });
+    const user = req.session.user;
+    res.render("sort", { minifigsShow, user});
   }); 
+
+  app.post("/addToCollection", async (req, res) => {
+    try {
+        const { minifigId, userId } = req.body;
+
+        // Perform any necessary validation
+
+        // Add the minifig ID to the user's collection in the database
+        // You'll need to implement this logic based on your database schema
+        // For example:
+        console.log(minifigId);
+        console.log(userId);
+        await userMinifigCollection.findOneAndUpdate(
+            { userId },
+            { $addToSet: { minifigs: minifigId } }
+        );
+
+        // Send a success response
+        res.status(200).json({ message: "Minifig added to collection successfully." });
+    } catch (error) {
+        console.error("Error adding minifig to collection:", error);
+        // Send an error response
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
 
 app.get("/contact", ensureAuthenticated, (req, res) => {
     res.render("contact", { user: req.session.user });
 });
 
-app.get("/collection", ensureAuthenticated, (req, res) => {
-    res.render("collection", { user: req.session.user });
+app.get("/collection", ensureAuthenticated, async (req, res) => {
+    let minifigsShow = [];
+    try {
+      const minifigs = await minifigsCollection.aggregate([
+        { $match: { set_img_url: { $exists: true }, name: { $exists: true }, set_num: { $exists: true } } },
+        { $sample: { size: 10 } }
+      ]).toArray();
+  
+      minifigsShow = minifigs;
+    } catch (error) {
+      console.error('Error fetching minifigs:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+    const user = req.session.user;
+    res.render("collection", { minifigsShow, user});
 });
 
 app.listen(app.get("port"), async () => {
