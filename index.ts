@@ -2,7 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import path from "path";
 import session from "express-session";
-import { connect, minifigsCollection, userMinifigCollection } from "./database";
+import { connect, minifigsCollection, setsCollection, userMinifigCollection } from "./database";
 import authRoutes from './routes/auth';
 import { ensureAuthenticated, ensureNotAuthenticated } from './middlewares/authMiddleware';
 
@@ -69,20 +69,21 @@ app.get("/summary", ensureAuthenticated, (req, res) => {
 });
 
 app.get("/sets", ensureAuthenticated, async (req, res) => {
-    let minifigsShow = [];
+    let setsShow = [];
     try {
-      const minifigs = await minifigsCollection.aggregate([
+      const minifigs = await setsCollection.aggregate([
         { $match: { set_img_url: { $exists: true }, name: { $exists: true }, set_num: { $exists: true } } },
         { $sample: { size: 10 } }
       ]).toArray();
   
-      minifigsShow = minifigs;
+      setsShow = minifigs;
     } catch (error) {
       console.error('Error fetching minifigs:', error);
       return res.status(500).json({ error: 'Internal Server Error' });
     }
     const user = req.session.user;
-    res.render("sets", { minifigsShow, user});});
+    res.render("sets", { setsShow, user})
+});
 
 app.get("/sort", ensureAuthenticated, async (req, res) => {
     let minifigsShow = [];
