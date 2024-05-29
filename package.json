@@ -5,8 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "test": "jest",
-    "run": "tsc && node index.js ",
-    "start": "nodemon index.ts"
+    "start": "tsc && node index.js ",
+    "nodemon": "nodemon index.ts"
   },
   "author": "",
   "license": "ISC",
