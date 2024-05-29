@@ -4,6 +4,7 @@ import path from "path";
 import session from "express-session";
 import { connect } from "./database";
 import authRoutes from './routes/auth';
+import minifigsRoutes from './routes/minifigs';
 
 dotenv.config();
 var MongoDBStore = require('connect-mongodb-session')(session);
@@ -42,6 +43,9 @@ app.get("/", (req , res) => {
 
 // Use the auth routes for handling registration and login
 app.use(authRoutes);
+
+// Use the minifigs routes
+app.use(minifigsRoutes);
 
 app.get("/blacklist", (req, res) => {
     res.render("blacklist", { user: req.session.user });
