@@ -1,49 +1,93 @@
+<!-- profile modal -->
 <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="me-2 mt-2 border-bottom-0 text-end">
-            <button type="button" class="btn-close" aria-label="Close" data-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form>
-                <div class="card mx-2 content">
-                  <h1 class="text-center">mijn profiel</h1>
-                  <div class="card-body text-center">
-                    <div class="text-center">
-                      <img class="rounded-circle shadow-4-strong" height="125" width="125" id="profileAvatar" alt="avatar" src="images/yodaAvatar.png"/>
-                    </div>
-                    <div class="text-center mt-1">
-                      <div class="">
-                        <h5>gebruikersnaam</h5>
-                      </div>
-                      <% if (user) { %>
-                            <input class="form-control text-center" type="text" value="<%= user.username %>" aria-label="Disabled input example">
-  
-                          <% } else{ %>
-                            <input class="form-control text-center" type="text" value="Doe" aria-label="Disabled input example">
-                         <% } %>
-                      <hr>
-                      <div class="text-center">
-                        <div class="">
-                          <h5>wachtwoord</h5>
-                        </div>
-                        <div class="text-center">
-                          <!-- hier post form om wachtwoord te wijzigen -->
-                        <div class="form-group mt-3">
-                          <input type="password" class="form-control text-center" id="password" name="password" placeholder="wijzig wachtwoord">
-                        </div>
-                        <div class="form-group mt-3">
-                          <input type="password" class="form-control text-center" id="password2" name="password2" placeholder="bevestig wachtwoord">
-                        </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <button type="button" class="btn btn-outline-warning mx-5 mb-3 mt-2" data-dismiss="modal" aria-label="Close">Opslaan</button>
-            </form>         
+          <div class="me-2 mt-2 border-bottom-0 text-end">
+              <button type="button" class="btn-close" aria-label="Close" data-dismiss="modal" aria-label="Close"></button>
           </div>
-        </div>
-    </div>
+          <div class="modal-body">
+              <form id="changePasswordForm" oninput='confirmNewPassword.setCustomValidity(confirmNewPassword.value != newPassword.value ? "Passwords do not match." : "")'>
+                  <div class="card mx-2 content">
+                      <h1 class="text-center">mijn profiel</h1>
+                      <div class="card-body text-center">
+                          <div class="text-center">
+                              <img class="rounded-circle shadow-4-strong" height="125" width="125" id="profileAvatar" alt="avatar" src="images/yodaAvatar.png"/>
+                          </div>
+                          <div class="text-center mt-1">
+                              <div class="">
+                                  <h5>gebruikersnaam</h5>
+                              </div>
+                              <% if (user) { %>
+                                  <input class="form-control text-center" type="text" value="<%= user.username %>" aria-label="Disabled input example" disabled>
+                              <% } else { %>
+                                  <input class="form-control text-center" type="text" value="Doe" aria-label="Disabled input example" disabled>
+                              <% } %>
+                              <hr>
+                              <div class="text-center">
+                                  <div class="">
+                                      <h5>Huidig wachtwoord</h5>
+                                  </div>
+                                  <div class="form-group mt-3">
+                                      <input type="password" class="form-control text-center" id="currentPassword" name="currentPassword" placeholder="huidig wachtwoord" required>
+                                  </div>
+                                  <div class="">
+                                      <h5>Nieuw wachtwoord</h5>
+                                  </div>
+                                  <div class="form-group mt-3">
+                                      <input type="password" class="form-control text-center" id="newPassword" name="newPassword" placeholder="nieuw wachtwoord" required>
+                                  </div>
+                                  <div class="form-group mt-3">
+                                      <input type="password" class="form-control text-center" id="confirmNewPassword" name="confirmNewPassword" placeholder="bevestig nieuw wachtwoord" required>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <button type="submit" class="btn btn-outline-warning mx-5 mb-3 mt-2">Opslaan</button>
+                  </div>
+              </form>
+          </div>
+      </div>
   </div>
-  </div>
-  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const changePasswordForm = document.getElementById("changePasswordForm");
+  
+      changePasswordForm.addEventListener("submit", async function(event) {
+          event.preventDefault();
+  
+          const currentPassword = document.getElementById("currentPassword").value;
+          const newPassword = document.getElementById("newPassword").value;
+          const confirmNewPassword = document.getElementById("confirmNewPassword").value;
+  
+          // Validate passwords
+          if (newPassword !== confirmNewPassword) {
+              alert("New passwords do not match");
+              return;
+          }
+  
+          // Send POST request to change password
+          try {
+              const response = await fetch("/change-password", {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({ currentPassword, newPassword, confirmNewPassword })
+              });
+  
+              const data = await response.json();
+  
+              if (response.ok) {
+                  alert(data.message);
+                  // Optionally, close the modal or do any other actions
+              } else {
+                  alert(data.error);
+              }
+          } catch (error) {
+              console.error("Error changing password:", error);
+              alert("An error occurred while changing password. Please try again later.");
+          }
+      });
+  });
+  </script>  

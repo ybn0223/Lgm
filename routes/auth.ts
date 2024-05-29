@@ -69,4 +69,49 @@ router.post('/logout', (req: Request, res: Response) => {
   });
 });
 
+// Route to change password
+router.post('/change-password', async (req: Request, res: Response) => {
+  try {
+      const { currentPassword, newPassword, confirmNewPassword } = req.body;
+
+      // Validate that new passwords match
+      if (newPassword !== confirmNewPassword) {
+          return res.status(400).json({ error: 'New passwords do not match' });
+      }
+
+      if (!req.session.user) {
+          return res.status(401).json({ error: 'Unauthorized' });
+      }
+
+      // Get the user from the session
+      const userId = req.session.user._id;
+      const user = await usersCollection.findOne({ _id: userId });
+
+      // Check if the user exists
+      if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      // Verify current password
+      const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+      if (!isPasswordValid) {
+          return res.status(401).json({ error: 'Current password is incorrect' });
+      }
+
+      // Hash the new password
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      // Update user's password
+      await usersCollection.updateOne(
+        { _id: userId },
+        { $set: { password: hashedPassword } }
+      );
+
+      res.status(200).json({ message: 'Password changed successfully' });
+  } catch (error) {
+      console.error('Error changing password:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 export default router;
