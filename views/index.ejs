@@ -35,6 +35,10 @@
       <!-- profile modal -->
       <%- include("partials/profile") %>
 
+      <% if (!userExists) {
+                <button type="button" class="btn btn-warning me-2" data-toggle="modal" data-target="#profileModal">profiel</button>
+      } %>
+
       <section class="container px-4 py-2" id="custom-cards">
         <h2 class="pb-2 border-bottom text-center">Landing</h2>
         <section class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">

@@ -1,7 +1,7 @@
 import { Collection, MongoClient } from "mongodb";
 import { Minifig, Set, IUser } from "./types/types";
 import dotenv from "dotenv";
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 dotenv.config();
 
@@ -38,9 +38,9 @@ async function fetchData(url: string) {
 }
 
 // Account related code here
-async function registerUser(firstName: string, lastName: string, email: string, password: string): Promise<string> {
+async function registerUser(username: string, password: string): Promise<string> {
     try {
-        const userExists = await usersCollection.findOne({ email });
+        const userExists = await usersCollection.findOne({ username });
         if (userExists) {
             return 'User already exists';
         }
@@ -48,9 +48,7 @@ async function registerUser(firstName: string, lastName: string, email: string, 
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser: IUser = {
-            firstName,
-            lastName,
-            email,
+            username,
             password: hashedPassword,
         };
 

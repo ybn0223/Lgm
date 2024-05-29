@@ -9,21 +9,15 @@
                   <h4>Registreer</h4>
               </div>
               <div class="d-flex flex-column text-center">
-                  <form action="/register" method="POST">
+                  <form action="/register" method="post" oninput='password2.setCustomValidity(password2.value != password.value ? "Passwords do not match." : "")'>
                       <div class="form-group mt-3">
-                          <input type="text" class="form-control" id="regFname" name="firstName" placeholder="uw voornaam" required>
+                          <input type="text" class="form-control" id="username" name="username" placeholder="uw gebruikersnaam" required>
                       </div>
                       <div class="form-group mt-3">
-                          <input type="text" class="form-control" id="regLname" name="lastName" placeholder="uw achternaam" required>
+                          <input type="password" class="form-control" id="password" name="password" placeholder="uw wachtwoord" required>
                       </div>
                       <div class="form-group mt-3">
-                          <input type="email" class="form-control" id="email1" name="email" placeholder="uw e-emailadres" required>
-                      </div>
-                      <div class="form-group mt-3">
-                          <input type="password" class="form-control" id="regPass1" name="password" placeholder="uw wachtwoord" required>
-                      </div>
-                      <div class="form-group mt-3">
-                          <input type="password" class="form-control" id="regPass2" name="password2" placeholder="bevestig wachtwoord" required>
+                          <input type="password" class="form-control" id="password2" name="password2" placeholder="bevestig wachtwoord" required>
                       </div>
                       <button type="submit" class="btn btn-outline-warning me-2 mt-4">Registreer</button>
                   </form>

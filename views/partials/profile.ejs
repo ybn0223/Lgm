@@ -14,48 +14,26 @@
                     </div>
                     <div class="text-center mt-1">
                       <div class="">
-                        <h5>voornaam</h5>
+                        <h5>gebruikersnaam</h5>
                       </div>
-                      <div class="">
-                        <% if (user) { %>
-                          <input class="form-control text-center" type="text" value="<%= user.firstName %>" aria-label="Disabled input example">
-
-                        <% } else{ %>
-                          <input class="form-control text-center" type="text" value="john" aria-label="Disabled input example">
-                       <% } %>
-                      </div>
-                      <hr>
-                      <div class="text-center">
-                        <div class="">
-                          <h5>achternaam</h5>
-                        </div>
-                        <div class="">
-                          <% if (user) { %>
-                            <input class="form-control text-center" type="text" value="<%= user.lastName %>" aria-label="Disabled input example">
+                      <% if (user) { %>
+                            <input class="form-control text-center" type="text" value="<%= user.username %>" aria-label="Disabled input example">
   
                           <% } else{ %>
                             <input class="form-control text-center" type="text" value="Doe" aria-label="Disabled input example">
                          <% } %>
+                      <hr>
+                      <div class="text-center">
+                        <div class="">
+                          <h5>wachtwoord</h5>
                         </div>
-                        <hr>
                         <div class="text-center">
-                        <div class="">
-                          <h5>e-mail</h5>
-                        </div>
-                        <div class="">
-                          <% if (user) { %>
-                            <input class="form-control text-center" type="text" value="<%= user.email %>" aria-label="Disabled input example">
-  
-                          <% } else{ %>
-                            <input class="form-control text-center" type="text" value="johnDoe@hotmail.com" aria-label="Disabled input example">
-                         <% } %>
-                        </div>
-                        <hr>
+                          <!-- hier post form om wachtwoord te wijzigen -->
                         <div class="form-group mt-3">
-                          <input type="password" class="form-control text-center" id="regPass2" placeholder="wijzig wachtwoord">
+                          <input type="password" class="form-control text-center" id="password" name="password" placeholder="wijzig wachtwoord">
                         </div>
                         <div class="form-group mt-3">
-                          <input type="password" class="form-control text-center" id="regPass2" placeholder="bevestig wachtwoord">
+                          <input type="password" class="form-control text-center" id="password2" name="password2" placeholder="bevestig wachtwoord">
                         </div>
                     </div>
                   </div>

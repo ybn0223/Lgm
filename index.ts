@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set('views', path.join(__dirname, "views"));
 
 app.use(session({
-  secret: 'your_secret_key',  // Replace with your own secret key
+  secret: 'your_secret_key',  // MAAK HIER EEN HASHED CODE VOOR!!!!
   resave: false,
   saveUninitialized: false,
   store: store
@@ -35,7 +35,8 @@ app.use(session({
 app.set("port", process.env.PORT || 10000);
 
 app.get("/", (req , res) => {
-    res.render("index", { user: req.session.user }
+    let userExists : boolean = true;
+    res.render("index", { user: req.session.user, userExists }
     );
 });
 
