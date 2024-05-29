@@ -3,6 +3,12 @@ import { Router, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { usersCollection, registerUser } from '../database';
 
+declare module 'express-session' {
+  export interface SessionData {
+    user: { [key: string]: any };
+  }
+} 
+
 const router = Router();
 
 router.post('/register', async (req: Request, res: Response) => {

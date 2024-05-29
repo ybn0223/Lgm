@@ -2,7 +2,6 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import path from "path";
 import session from "express-session";
-import connectMongo from "connect-mongodb-session";
 import { connect } from "./database";
 import authRoutes from './routes/auth';
 
