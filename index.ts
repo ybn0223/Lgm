@@ -4,6 +4,7 @@ import path from "path";
 import session from "express-session";
 import { connect, minifigsCollection, setsCollection, userMinifigCollection } from "./database";
 import authRoutes from './routes/auth';
+import resetRoutes from './routes/resetPass';
 import { ensureAuthenticated, ensureNotAuthenticated } from './middlewares/authMiddleware';
 
 dotenv.config();
@@ -25,6 +26,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set('views', path.join(__dirname, "views"));
+// routes for handling registration and login
+app.use(authRoutes);
+app.use(resetRoutes);
+
 
 app.use(session({
   secret: 'your_secret_key',  // MAAK HIER EEN HASHED CODE VOOR!!!!
@@ -38,12 +43,12 @@ app.set("port", process.env.PORT || 10000);
 app.get("/", ensureNotAuthenticated ,(req , res) => {
     let userExists : boolean = false;
     let wrongCredentials : boolean = false;
-    res.render("index", { user: req.session.user, userExists, wrongCredentials }
+    let emailNotFound : boolean = false;
+    res.render("index", { user: req.session.user, userExists, wrongCredentials, emailNotFound }
     );
 });
 
-// Use the auth routes for handling registration and login
-app.use(authRoutes);
+
 
 app.get("/blacklist",ensureAuthenticated, async (req, res) => {
     let minifigsShow = [];
@@ -149,6 +154,8 @@ app.get("/collection", ensureAuthenticated, async (req, res) => {
     const user = req.session.user;
     res.render("collection", { minifigsShow, user});
 });
+
+app.get("/users/reset-password/", )
 
 // Handle 404 - Page Not Found
 app.use((req, res, next) => {

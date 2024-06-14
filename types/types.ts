@@ -18,12 +18,14 @@ export interface Set {
     last_modified_dt: Date;
 }
 
-// types.ts
-export interface IUser {
-    email: string
+export interface IUser{
+    email: string;
     username: string;
     password: string;
-  } 
+    resetToken?: string;
+    resetTokenExpiration?: Date;
+}
+
 
 export interface IUserMinifigsCollection{
     userId: string,

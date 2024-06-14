@@ -9,3 +9,9 @@ $(document).ready(function() {
       $('#registerModal').modal('show');
     }
   });
+
+  $(document).ready(function() {
+    if ($('#forgotPassword').data('show')) {
+      $('#forgotPassword').modal('show');
+    }
+  });
