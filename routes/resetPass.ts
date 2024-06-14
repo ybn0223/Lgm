@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import { usersCollection } from '../database'; // Adjust import path as per your project structure
 import dotenv from 'dotenv';
+import bcrypt from "bcrypt";
 
 const router = Router();
 dotenv.config();
@@ -74,8 +75,7 @@ router.post('/forgotPassword', async (req, res) => {
 });
 
 router.get("/users/reset-password/:token", async (req, res) =>{
-    const token = req.params;
-    
+    const token = req.params.token;
     try {
         // Ensure token is a string
         if (!token || typeof token !== 'string') {
@@ -93,7 +93,10 @@ router.get("/users/reset-password/:token", async (req, res) =>{
         }
 
         // Render the password reset form
-        res.render('resetPassword', { token });
+        let wrongCredentials : boolean = false;
+        let userExists : boolean = false;
+        let emailNotFound : boolean = false;
+        res.render('resetPassword', { token, user : userExists, emailNotFound, wrongCredentials, userExists });
     } catch (err) {
         console.error('Error rendering password reset form:', err);
         res.status(500).json({ error: 'Server error' });
@@ -103,7 +106,7 @@ router.get("/users/reset-password/:token", async (req, res) =>{
 // POST route to handle password reset with token
 router.post('/reset-password/:token', async (req, res) => {
     const { token } = req.params;
-    const { newPassword } = req.body;
+    const { password } = req.body;
 
     try {
         // Find user by reset token and check token expiration in MongoDB collection
@@ -117,14 +120,16 @@ router.post('/reset-password/:token', async (req, res) => {
             return;
         }
 
+        const hashedPassword = await bcrypt.hash(password, 10);
+        let date : Date = new Date("0001-01-01");
         // Update user's password (in a real application, you would hash the password before saving)
         await usersCollection.updateOne(
             { _id: user._id },
             {
                 $set: {
-                    password: newPassword,
-                    resetToken: undefined,
-                    resetTokenExpiration: undefined
+                    password: hashedPassword,
+                    resetToken: "",
+                    resetTokenExpiration: date
                 },
             }
         );
