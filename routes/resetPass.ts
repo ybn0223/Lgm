@@ -77,10 +77,15 @@ router.get("/users/reset-password/:token", async (req, res) =>{
     const token = req.params;
     
     try {
+        // Ensure token is a string
+        if (!token || typeof token !== 'string') {
+            return res.status(400).json({ error: 'Invalid token' });
+        }
+
         // Find user by reset token and check token expiration in MongoDB collection
         const user = await usersCollection.findOne({
             resetToken: token,
-            resetTokenExpiration: { $gt: new Date() },
+            resetTokenExpiration: { $gt: new Date() }
         });
 
         if (!user) {
