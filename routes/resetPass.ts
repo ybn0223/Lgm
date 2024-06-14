@@ -88,7 +88,7 @@ router.get("/users/reset-password/:token", async (req, res) =>{
         }
 
         // Render the password reset form
-        res.render('reset-password', { token }); // Assuming you use a templating engine like EJS
+        res.render('resetPassword', { token });
     } catch (err) {
         console.error('Error rendering password reset form:', err);
         res.status(500).json({ error: 'Server error' });
@@ -108,7 +108,8 @@ router.post('/reset-password/:token', async (req, res) => {
         });
 
         if (!user) {
-            return res.status(400).json({ error: 'Invalid or expired token' });
+            res.redirect("/404");
+            return;
         }
 
         // Update user's password (in a real application, you would hash the password before saving)
@@ -122,12 +123,12 @@ router.post('/reset-password/:token', async (req, res) => {
                 },
             }
         );
-
-        return res.status(200).json({ message: 'Password reset successfully' });
-
+        res.redirect("/");
+        return;
     } catch (err) {
         console.error('Error resetting password:', err);
-        res.status(500).json({ error: 'Server error' });
+        res.redirect("/404")
+        return;
     }
 });
 
