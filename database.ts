@@ -38,7 +38,7 @@ async function fetchData(url: string) {
 }
 
 // Account related code here
-async function registerUser(username: string, password: string): Promise<string> {
+async function registerUser(email: string, username: string, password: string): Promise<string> {
     try {
         const userExists = await usersCollection.findOne({ username });
         if (userExists) {
@@ -48,6 +48,7 @@ async function registerUser(username: string, password: string): Promise<string>
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser: IUser = {
+            email,
             username,
             password: hashedPassword,
         };

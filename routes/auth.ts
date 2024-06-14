@@ -12,17 +12,24 @@ declare module 'express-session' {
 const router = Router();
 
 router.post('/register', async (req, res) => {
-  const { username, password, password2 } = req.body;
+  const { email, username, password, password2 } = req.body;
 
+  let wrongCredentials : boolean = false;
+  let userExists : boolean = true;
+  
   if (password !== password2) {
     return res.status(400).send('Passwords do not match');
   }
 
   try {
-    const result = await registerUser(username, password);
+    const result = await registerUser(email ,username, password);
     if (result !== 'User registered successfully') {
-      return res.status(400).send(result);
-    }
+      let user : boolean = false;
+      res.render("index", {
+        wrongCredentials, user, userExists
+    })
+    return;
+  }
 
     const user = await usersCollection.findOne({ username });
     if (!user) {
@@ -39,16 +46,28 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
+  
+  let wrongCredentials : boolean = true;
+  let userExists : boolean = false;
 
   try {
     const user = await usersCollection.findOne({ username });
     if (!user) {
-      return res.status(400).send('Invalid credentials');
+      
+      res.render("index", {
+          wrongCredentials, user, userExists
+      })
+      return;
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).send('Invalid credentials');
+      let wrongCredentials : boolean = true;
+      let user : boolean = false;
+      res.render("index", {
+          wrongCredentials, user, userExists
+      })
+      return;
     }
 
     req.session.user = user;

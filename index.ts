@@ -35,9 +35,10 @@ app.use(session({
 
 app.set("port", process.env.PORT || 10000);
 
-app.get("/" ,(req , res) => {
-    let userExists : boolean = true;
-    res.render("index", { user: req.session.user, userExists }
+app.get("/", ensureNotAuthenticated ,(req , res) => {
+    let userExists : boolean = false;
+    let wrongCredentials : boolean = false;
+    res.render("index", { user: req.session.user, userExists, wrongCredentials }
     );
 });
 
@@ -148,6 +149,13 @@ app.get("/collection", ensureAuthenticated, async (req, res) => {
     const user = req.session.user;
     res.render("collection", { minifigsShow, user});
 });
+
+// Handle 404 - Page Not Found
+app.use((req, res, next) => {
+  let userExists : boolean = false;
+  let wrongCredentials : boolean = false;
+  res.render("404", { user: req.session.user, userExists, wrongCredentials }
+  );});
 
 app.listen(app.get("port"), async () => {
     await connect();

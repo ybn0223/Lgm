@@ -1,4 +1,5 @@
-<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true"
+    <% if (userExists) { %> data-show="true" <% } %>>
   <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
           <div class="modal-header border-bottom-0">
@@ -10,8 +11,11 @@
               </div>
               <div class="d-flex flex-column text-center">
                   <form action="/register" method="post" oninput='password2.setCustomValidity(password2.value != password.value ? "Passwords do not match." : "")'>
+                        <div class="form-group mt-3">
+                          <input type="email" class="form-control" id="email" name="email" placeholder="uw e-mailadres" required>
+                        </div>
                       <div class="form-group mt-3">
-                          <input type="text" class="form-control" id="username" name="username" placeholder="uw gebruikersnaam" required>
+                          <input type="text" class="form-control" id="registerUsername" name="username" placeholder="uw gebruikersnaam" required>
                       </div>
                       <div class="form-group mt-3">
                           <input type="password" class="form-control" id="password" name="password" placeholder="uw wachtwoord" required>
@@ -19,6 +23,9 @@
                       <div class="form-group mt-3">
                           <input type="password" class="form-control" id="password2" name="password2" placeholder="bevestig wachtwoord" required>
                       </div>
+                      <% if (userExists) { %>
+                        <p style="color: red;">*gebruikersnaam bestaat al*</p>
+                      <% } %>
                       <button type="submit" class="btn btn-outline-warning me-2 mt-4">Registreer</button>
                   </form>
               </div>
@@ -26,3 +33,4 @@
       </div>
   </div>
 </div>
+<script src="/js/index.js"></script>
