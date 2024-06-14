@@ -16,7 +16,7 @@ router.post('/register', async (req, res) => {
 
   let wrongCredentials : boolean = false;
   let userExists : boolean = true;
-  
+
   if (password !== password2) {
     return res.status(400).send('Passwords do not match');
   }
@@ -25,8 +25,9 @@ router.post('/register', async (req, res) => {
     const result = await registerUser(email ,username, password);
     if (result !== 'User registered successfully') {
       let user : boolean = false;
+      let emailNotFound : boolean = false;
       res.render("index", {
-        wrongCredentials, user, userExists
+        wrongCredentials, user, userExists, emailNotFound
     })
     return;
   }
@@ -53,9 +54,9 @@ router.post('/login', async (req, res) => {
   try {
     const user = await usersCollection.findOne({ username });
     if (!user) {
-      
+      let emailNotFound : boolean = false;
       res.render("index", {
-          wrongCredentials, user, userExists
+          wrongCredentials, user, userExists, emailNotFound
       })
       return;
     }
@@ -64,8 +65,9 @@ router.post('/login', async (req, res) => {
     if (!isMatch) {
       let wrongCredentials : boolean = true;
       let user : boolean = false;
+      let emailNotFound : boolean = false;
       res.render("index", {
-          wrongCredentials, user, userExists
+          wrongCredentials, user, userExists, emailNotFound
       })
       return;
     }
