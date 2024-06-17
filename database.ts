@@ -70,7 +70,7 @@ export const minifigsCollection: Collection<Minifig> = client.db("lego").collect
 export const setsCollection: Collection<Set> = client.db("lego").collection<Set>("sets");
 export const usersCollection: Collection<IUser> = client.db("lego").collection<IUser>("users");
 export const userMinifigCollection: Collection<IUserMinifigsCollection> = client.db("lego").collection<IUserMinifigsCollection>("userMinifigCollection");
-
+export const blacklistCollection: Collection<any> = client.db("lego").collection<any>("blacklist");
 
 async function seed() {
     if (await minifigsCollection.countDocuments() === 0) {

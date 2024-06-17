@@ -14,7 +14,7 @@
         <!-- Hidden container to hold all minifigs -->
         <div id="minifigsContainer" style="display: none;">
           <% minifigsShow.forEach(minifig => { %>
-              <div class="minifig-card text-center mb-3" data-minifig-id="<%= minifig.id %>">
+              <div class="minifig-card text-center mb-3" data-minifig-id="<%= minifig._id %>">
                   <h3><%= minifig.name %></h3>
                   <div class="minifig-image-container">
                       <img src="<%= minifig.set_img_url %>" alt="<%= minifig.name %>" class="minifig-image" />
@@ -35,7 +35,7 @@
                 <div class="d-flex justify-content-between text-center">
                     <button id="skipButton" class="btn btn-warning">Skip</button>
                     <button id="sortButton" class="btn btn-warning" data-toggle="modal" data-target="#sortModal">Toevoegen aan collectie</button>
-                    <button class="btn btn-warning" data-toggle="modal" data-target="#blacklistModal">Blacklist</button>
+                    <button id="blacklistButton" class="btn btn-warning" data-toggle="modal" data-target="#blacklistModal">Blacklist</button>
                 </div>
         </div>
     </main>
@@ -91,6 +91,34 @@
             }
         }
     });
+    document.getElementById("blacklistButton").addEventListener("click", async function() {
+    if (currentIndex < minifigs.length) {
+        const minifigCard = minifigs[currentIndex]; // Get the current minifig card
+        const minifigId = minifigCard.getAttribute("data-minifig-id");
+
+        try {
+            const response = await fetch("/addToBlacklist", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ minifigId: minifigId }) // Verzend minifigId als een string
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to add minifig to blacklist.");
+            }
+            
+            // Optioneel: Update de UI of toon feedback aan de gebruiker
+            console.log("Minifig added to blacklist successfully.");
+            currentIndex++; // Move to the next minifig
+            showMinifig(currentIndex); // Update UI to show the next minifig
+
+        } catch (error) {
+            console.error("Error adding minifig to blacklist:", error);
+        }
+    }
+});
 
     // Initial display
     showMinifig(currentIndex);

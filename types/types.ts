@@ -5,6 +5,8 @@ export interface Minifig {
     minifig_img_url:  string;
     minifig_url:      string;
     last_modified_dt: Date;
+    set_img_url?: string;
+    set_url?: string;
 }
 
 export interface Set {
