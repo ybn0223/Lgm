@@ -111,39 +111,68 @@ app.get("/sort", authMiddleware_1.ensureAuthenticated, (req, res) => __awaiter(v
     const user = req.session.user;
     res.render("sort", { minifigsShow, user });
 }));
-app.post("/addToCollection", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { minifigId, userId } = req.body;
-        // Perform any necessary validation
-        // Add the minifig ID to the user's collection in the database
-        yield database_1.userMinifigCollection.findOneAndUpdate({ userId }, { $addToSet: { minifigs: minifigId } });
-        // Send a success response
-        res.status(200).json({ message: "Minifig added to collection successfully." });
+// app.post("/addToCollection", async (req, res) => {
+//   try {
+//     const { minifigId, userId } = req.body;
+//     // Perform any necessary validation
+//     // Add the minifig ID to the user's collection in the database
+//     await userMinifigCollection.findOneAndUpdate(
+//       { userId },
+//       { $addToSet: { minifigs: minifigId } }
+//     );
+//     // Send a success response
+//     res.status(200).json({ message: "Minifig added to collection successfully." });
+//   } catch (error) {
+//     console.error("Error adding minifig to collection:", error);
+//     // Send an error response
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
+app.get('/collection', authMiddleware_1.ensureAuthenticated, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // Controleer of req.session.user gedefinieerd is
+    if (!req.session.user) {
+        return res.status(401).send('Unauthorized');
     }
-    catch (error) {
-        console.error("Error adding minifig to collection:", error);
-        // Send an error response
-        res.status(500).json({ error: "Internal Server Error" });
+    try {
+        // Haal de gebruiker zijn minifig collecties op
+        const userMinifigCollectionDocument = yield database_1.userMinifigCollection.findOne({ userId: req.session.user._id });
+        // Controleer of er minifigs zijn voor deze gebruiker
+        if (!userMinifigCollectionDocument || !userMinifigCollectionDocument.minifigs) {
+            return res.render('collection', { minifigsShow: [], user: req.session.user });
+        }
+        // Haal de minifigId's uit de document
+        const minifigIds = userMinifigCollectionDocument.minifigs.map((id) => new mongodb_1.ObjectId(id));
+        // Zoek de daadwerkelijke minifiguren op basis van de minifigIds
+        const minifigs = yield database_1.minifigsCollection.find({ _id: { $in: minifigIds } }).toArray();
+        // Render de collection view en geef de minifigs en user door
+        res.render('collection', { minifigsShow: minifigs, user: req.session.user });
+    }
+    catch (err) {
+        console.error('Error fetching minifigs:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }));
-app.get("/contact", authMiddleware_1.ensureAuthenticated, (req, res) => {
-    res.render("contact", { user: req.session.user });
-});
-app.get("/collection", authMiddleware_1.ensureAuthenticated, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let minifigsShow = [];
+app.post('/collection/delete/:minifigId', authMiddleware_1.ensureAuthenticated, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.session.user) {
+        return res.status(401).send('Unauthorized');
+    }
+    const { minifigId } = req.params;
+    if (!minifigId) {
+        return res.status(400).json({ error: 'minifigId is required' });
+    }
     try {
-        const minifigs = yield database_1.minifigsCollection.aggregate([
-            { $match: { set_img_url: { $exists: true }, name: { $exists: true }, set_num: { $exists: true } } },
-            { $sample: { size: 10 } }
-        ]).toArray();
-        minifigsShow = minifigs;
+        const result = yield database_1.userMinifigCollection.updateOne({ userId: { $eq: req.session.user._id } }, // Alternatieve benadering met $eq operator
+        { $pull: { minifigs: minifigId } } // Verwijder de minifigId uit de array
+        );
+        if (result.modifiedCount === 0) {
+            return res.status(404).json({ error: 'Minifig not found in collection' });
+        }
+        res.redirect('/collection'); // Omleiden naar de collectiepagina na verwijdering
     }
-    catch (error) {
-        console.error('Error fetching minifigs:', error);
-        return res.status(500).json({ error: 'Internal Server Error' });
+    catch (err) {
+        console.error('Error deleting minifig:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-    const user = req.session.user;
-    res.render("collection", { minifigsShow, user });
 }));
 //BLACKLISTEN-WERKRUIMTE
 app.post("/addToBlacklist", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -194,6 +223,30 @@ app.delete("/removeFromBlacklist/:minifigId", (req, res) => __awaiter(void 0, vo
     }
     catch (error) {
         console.error("Error removing minifig from blacklist:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}));
+app.post("/addToUserMinifigCollection", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userId, minifigId } = req.body;
+        // Controleer of userId en minifigId correct zijn ingevuld
+        if (!userId || !minifigId) {
+            return res.status(400).json({ error: "Invalid request body." });
+        }
+        console.log('Collected minifigId:', minifigId);
+        // Voeg de minifig toe aan de gebruikerscollectie
+        const result = yield database_1.userMinifigCollection.updateOne({ userId }, {
+            $setOnInsert: { userId },
+            $addToSet: { minifigs: minifigId }
+        }, { upsert: true });
+        if (result.modifiedCount === 0 && result.upsertedCount === 0) {
+            throw new Error("Failed to add minifig to collection.");
+        }
+        // Stuur een succesrespons terug
+        res.status(200).json({ message: "Minifig added to user collection successfully." });
+    }
+    catch (error) {
+        console.error("Error adding minifig to user collection:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 }));

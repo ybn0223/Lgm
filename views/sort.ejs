@@ -62,39 +62,43 @@
     });
 
     document.getElementById("sortButton").addEventListener("click", async function() {
-        if (currentIndex < minifigs.length) {
-            currentIndex++;
-            showMinifig(currentIndex);
+    if (currentIndex < minifigs.length) {
+        currentIndex++;
+        showMinifig(currentIndex);
 
-            // Send a POST request to add the current minifig to the user's collection
-            try {
-                const minifigCard = minifigs[currentIndex - 1]; // Access the previous minifig as the index has been incremented
-                const minifigIdElement = minifigCard.getAttribute("data-minifig-id");
-                const userId = '<%= user.id %>'; // Make sure user.id is correctly set
+        const minifigCard = minifigs[currentIndex - 1];
+        const minifigId = minifigCard.getAttribute("data-minifig-id");
+        const userId = '<%= user._id %>'; // Zorg ervoor dat user.id correct wordt ingevuld
 
-                console.log("minifigId:", currentMinifigId);
-                console.log("userId:", userId);
+        console.log('Sending userId:', userId);
 
-                const response = await fetch("/addToCollection", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ minifigId: currentMinifigId, userId })
-                });
+        try {
+            const response = await fetch("/addToUserMinifigCollection", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ userId, minifigId })
+            });
 
-                if (!response.ok) {
-                    throw new Error("Failed to add minifig to collection.");
-                }
-            } catch (error) {
-                console.error("Error adding minifig to collection:", error);
+            if (!response.ok) {
+                throw new Error("Failed to add minifig to collection.");
             }
+
+            console.log("Minifig added to collection");
+        } catch (error) {
+            console.error("Error adding minifig to collection:", error);
         }
-    });
+    }
+});
+
     document.getElementById("blacklistButton").addEventListener("click", async function() {
     if (currentIndex < minifigs.length) {
         const minifigCard = minifigs[currentIndex]; // Get the current minifig card
         const minifigId = minifigCard.getAttribute("data-minifig-id");
+        const userId = '<%= user._id %>'; // Zorg ervoor dat user.id correct wordt ingevuld
+
+        console.log('Sending userId:', userId);
 
         try {
             const response = await fetch("/addToBlacklist", {
@@ -110,7 +114,7 @@
             }
             
             // Optioneel: Update de UI of toon feedback aan de gebruiker
-            console.log("Minifig added to blacklist successfully.");
+            console.log("Minifig added to blacklist");
             currentIndex++; // Move to the next minifig
             showMinifig(currentIndex); // Update UI to show the next minifig
 

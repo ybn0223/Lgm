@@ -31,5 +31,5 @@ export interface IUser{
 
 export interface IUserMinifigsCollection{
     userId: string,
-    minifigs: Minifig
+    minifigs: string[]
 }

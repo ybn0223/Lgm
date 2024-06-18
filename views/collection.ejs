@@ -17,7 +17,7 @@
         
         <section class="container">
             <h2 class="text-center mb-5">Collectie</h2>
-            <a href="sets" class="text-decoration-none"> <p> Bekijk alle sets </p> </a>
+            <a href="sets" class="text-decoration-none"><p>Bekijk alle sets</p></a>
             <section class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -34,7 +34,13 @@
                                 <td><%= index + 1 %></td>
                                 <td><%= minifig.name %></td>
                                 <td><img src="<%= minifig.set_img_url %>" alt="<%= minifig.name %>" width="192"></td>
-                                <td><button type="button" class="btn"><img src="images/deleteButton.png" width="48"></button></td>
+                                <td>
+                                    <form action="/collection/delete/<%= minifig._id %>" method="POST">
+                                        <button type="submit" class="btn">
+                                            <img src="images/deleteButton.png" width="48" alt="Delete">
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         <% }) %>
                     </tbody>
