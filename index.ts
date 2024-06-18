@@ -98,28 +98,28 @@ app.get("/sort", ensureAuthenticated, async (req, res) => {
 
 
 
-
-
-
-
-
-
+//NIEUWE WERKRUIMTE
 app.get('/collection', ensureAuthenticated, async (req, res) => {
   // Controleer of req.session.user gedefinieerd is
   if (!req.session.user) {
     return res.status(401).send('Unauthorized');
   }
   try {
+
     // Haal de gebruiker zijn minifig collecties op
     const userMinifigCollectionDocument = await userMinifigCollection.findOne({ userId: req.session.user._id });
+
     // Controleer of er minifigs zijn voor deze gebruiker
     if (!userMinifigCollectionDocument || !userMinifigCollectionDocument.minifigs) {
       return res.render('collection', { minifigsShow: [], user: req.session.user, wrongPassword: false });
     }
+
     // Haal de minifigId's uit de document
     const minifigIds = userMinifigCollectionDocument.minifigs.map((id: string) => new ObjectId(id));
+
     // Zoek de daadwerkelijke minifiguren op basis van de minifigIds
     const minifigs = await minifigsCollection.find({ _id: { $in: minifigIds } }).toArray();
+    
     // Render de collection view en geef de minifigs en user door
     res.render('collection', { minifigsShow: minifigs, user: req.session.user, wrongPassword: false });
   } catch (err) {
@@ -154,7 +154,6 @@ app.post('/collection/delete/:minifigId', ensureAuthenticated, async (req, res) 
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-//BLACKLISTEN-WERKRUIMTE
 app.post("/addToBlacklist", async (req, res) => {
   try {
     const { minifigId } = req.body;
@@ -241,10 +240,6 @@ app.post("/addToUserMinifigCollection", async (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
-
-
-
 
 
 
