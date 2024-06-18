@@ -58,21 +58,6 @@ app.get("/", authMiddleware_1.ensureNotAuthenticated, (req, res) => {
     let emailNotFound = false;
     res.render("index", { user: req.session.user, userExists, wrongCredentials, emailNotFound });
 });
-// app.get("/blacklist", ensureAuthenticated, async (req, res) => {
-//   let minifigsShow = [];
-//   try {
-//     const minifigs = await minifigsCollection.aggregate([
-//       { $match: { set_img_url: { $exists: true }, name: { $exists: true }, set_num: { $exists: true } } },
-//       { $sample: { size: 10 } }
-//     ]).toArray();
-//     minifigsShow = minifigs;
-//   } catch (error) {
-//     console.error('Error fetching minifigs:', error);
-//     return res.status(500).json({ error: 'Internal Server Error' });
-//   }
-//   const user = req.session.user;
-//   res.render("blacklist", { minifigsShow, user });
-// });
 app.get("/home", authMiddleware_1.ensureAuthenticated, (req, res) => {
     res.render("home", { user: req.session.user });
 });
@@ -111,23 +96,6 @@ app.get("/sort", authMiddleware_1.ensureAuthenticated, (req, res) => __awaiter(v
     const user = req.session.user;
     res.render("sort", { minifigsShow, user });
 }));
-// app.post("/addToCollection", async (req, res) => {
-//   try {
-//     const { minifigId, userId } = req.body;
-//     // Perform any necessary validation
-//     // Add the minifig ID to the user's collection in the database
-//     await userMinifigCollection.findOneAndUpdate(
-//       { userId },
-//       { $addToSet: { minifigs: minifigId } }
-//     );
-//     // Send a success response
-//     res.status(200).json({ message: "Minifig added to collection successfully." });
-//   } catch (error) {
-//     console.error("Error adding minifig to collection:", error);
-//     // Send an error response
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
 app.get('/collection', authMiddleware_1.ensureAuthenticated, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Controleer of req.session.user gedefinieerd is
     if (!req.session.user) {
