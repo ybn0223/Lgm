@@ -53,22 +53,6 @@ app.get("/", ensureNotAuthenticated, (req, res) => {
   res.render("index", { user: req.session.user, userExists, wrongCredentials, emailNotFound });
 });
 
-// app.get("/blacklist", ensureAuthenticated, async (req, res) => {
-//   let minifigsShow = [];
-//   try {
-//     const minifigs = await minifigsCollection.aggregate([
-//       { $match: { set_img_url: { $exists: true }, name: { $exists: true }, set_num: { $exists: true } } },
-//       { $sample: { size: 10 } }
-//     ]).toArray();
-//     minifigsShow = minifigs;
-//   } catch (error) {
-//     console.error('Error fetching minifigs:', error);
-//     return res.status(500).json({ error: 'Internal Server Error' });
-//   }
-//   const user = req.session.user;
-//   res.render("blacklist", { minifigsShow, user });
-// });
-
 app.get("/home", ensureAuthenticated, (req, res) => {
   res.render("home", { user: req.session.user });
 });
@@ -109,26 +93,17 @@ app.get("/sort", ensureAuthenticated, async (req, res) => {
   res.render("sort", { minifigsShow, user });
 });
 
-// app.post("/addToCollection", async (req, res) => {
-//   try {
-//     const { minifigId, userId } = req.body;
 
-//     // Perform any necessary validation
 
-//     // Add the minifig ID to the user's collection in the database
-//     await userMinifigCollection.findOneAndUpdate(
-//       { userId },
-//       { $addToSet: { minifigs: minifigId } }
-//     );
 
-//     // Send a success response
-//     res.status(200).json({ message: "Minifig added to collection successfully." });
-//   } catch (error) {
-//     console.error("Error adding minifig to collection:", error);
-//     // Send an error response
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// });
+
+
+
+
+
+
+
+
 app.get('/collection', ensureAuthenticated, async (req, res) => {
   // Controleer of req.session.user gedefinieerd is
   if (!req.session.user) {
@@ -179,17 +154,6 @@ app.post('/collection/delete/:minifigId', ensureAuthenticated, async (req, res) 
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
-
-
-
-
-
-
-
-
-
-
 //BLACKLISTEN-WERKRUIMTE
 app.post("/addToBlacklist", async (req, res) => {
   try {
@@ -277,6 +241,11 @@ app.post("/addToUserMinifigCollection", async (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+
+
+
+
 
 
 
