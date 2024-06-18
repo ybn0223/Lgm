@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { usersCollection, registerUser } from '../database';
+import { ensureAuthenticated } from '../middlewares/authMiddleware';
 
 declare module 'express-session' {
   export interface SessionData {
@@ -27,7 +28,8 @@ router.post('/register', async (req, res) => {
         wrongCredentials,
         user: false,
         userExists,
-        emailNotFound: false
+        emailNotFound: false,
+        wrongPassword: false 
       });
       return;
     }
@@ -47,7 +49,7 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
-
+  const emailNotFound : boolean = false;
   try {
     const user = await usersCollection.findOne({ username });
     if (!user) {
@@ -55,7 +57,8 @@ router.post('/login', async (req, res) => {
         wrongCredentials: true,
         user: false,
         userExists: false,
-        emailNotFound: true
+        emailNotFound,
+        wrongPassword: false 
       });
       return;
     }
@@ -66,7 +69,8 @@ router.post('/login', async (req, res) => {
         wrongCredentials: true,
         user: false,
         userExists: false,
-        emailNotFound: false
+        emailNotFound,
+        wrongPassword: false 
       });
       return;
     }
@@ -89,41 +93,33 @@ router.post('/logout', (req, res) => {
   });
 });
 
-router.post('/change-password', async (req, res) => {
+router.post('/change-password',ensureAuthenticated , async (req, res) => {
   try {
-    const { currentPassword, newPassword, confirmNewPassword } = req.body;
+    const { currentPassword, newPassword, username } = req.body;
 
-    if (newPassword !== confirmNewPassword) {
-      return res.status(400).json({ error: 'New passwords do not match' });
-    }
-
-    if (!req.session.user) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-
-    const userId = req.session.user._id;
-    const user = await usersCollection.findOne({ _id: userId });
+    const user = await usersCollection.findOne({ username: username });
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      res.redirect('/404');
+      return;
     }
 
     const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ error: 'Current password is incorrect' });
+      return res.render('home', { user: req.session.user, wrongPassword: true });
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-
     await usersCollection.updateOne(
-      { _id: userId },
+      { username: username },
       { $set: { password: hashedPassword } }
     );
 
-    res.status(200).json({ message: 'Password changed successfully' });
+    return res.render('home', { user: req.session.user, wrongPassword: false });
+
   } catch (error) {
     console.error('Error changing password:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

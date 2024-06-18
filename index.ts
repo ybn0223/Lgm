@@ -50,15 +50,15 @@ app.get("/", ensureNotAuthenticated, (req, res) => {
   let userExists = false;
   let wrongCredentials = false;
   let emailNotFound = false;
-  res.render("index", { user: req.session.user, userExists, wrongCredentials, emailNotFound });
+  res.render("index", { user: req.session.user, userExists, wrongCredentials, emailNotFound, wrongPassword: false });
 });
 
 app.get("/home", ensureAuthenticated, (req, res) => {
-  res.render("home", { user: req.session.user });
+  res.render("home", { user: req.session.user, wrongPassword: false });
 });
 
 app.get("/summary", ensureAuthenticated, (req, res) => {
-  res.render("summary", { user: req.session.user });
+  res.render("summary", { user: req.session.user, wrongPassword: false  });
 });
 
 app.get("/sets", ensureAuthenticated, async (req, res) => {
@@ -74,7 +74,7 @@ app.get("/sets", ensureAuthenticated, async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
   const user = req.session.user;
-  res.render("sets", { setsShow, user });
+  res.render("sets", { setsShow, user, wrongPassword: false  });
 });
 
 app.get("/sort", ensureAuthenticated, async (req, res) => {
@@ -90,7 +90,7 @@ app.get("/sort", ensureAuthenticated, async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
   const user = req.session.user;
-  res.render("sort", { minifigsShow, user });
+  res.render("sort", { minifigsShow, user, wrongPassword: false });
 });
 
 
@@ -114,14 +114,14 @@ app.get('/collection', ensureAuthenticated, async (req, res) => {
     const userMinifigCollectionDocument = await userMinifigCollection.findOne({ userId: req.session.user._id });
     // Controleer of er minifigs zijn voor deze gebruiker
     if (!userMinifigCollectionDocument || !userMinifigCollectionDocument.minifigs) {
-      return res.render('collection', { minifigsShow: [], user: req.session.user });
+      return res.render('collection', { minifigsShow: [], user: req.session.user, wrongPassword: false });
     }
     // Haal de minifigId's uit de document
     const minifigIds = userMinifigCollectionDocument.minifigs.map((id: string) => new ObjectId(id));
     // Zoek de daadwerkelijke minifiguren op basis van de minifigIds
     const minifigs = await minifigsCollection.find({ _id: { $in: minifigIds } }).toArray();
     // Render de collection view en geef de minifigs en user door
-    res.render('collection', { minifigsShow: minifigs, user: req.session.user });
+    res.render('collection', { minifigsShow: minifigs, user: req.session.user, wrongPassword: false });
   } catch (err) {
     console.error('Error fetching minifigs:', err);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -188,7 +188,7 @@ app.get("/blacklist", ensureAuthenticated, async (req, res) => {
       const blacklistMinifigs = await blacklistCollection.find({}).toArray();
 
       // Render de blacklist.ejs template en geef de juiste data door
-      res.render("blacklist", { blacklistMinifigs, user: req.session.user });
+      res.render("blacklist", { blacklistMinifigs, user: req.session.user, wrongPassword: false });
   } catch (error) {
       console.error('Error fetching blacklist minifigs:', error);
       return res.status(500).json({ error: 'Internal Server Error' });
@@ -257,7 +257,7 @@ app.post("/addToUserMinifigCollection", async (req, res) => {
 app.use((req, res) => {
   let userExists = false;
   let wrongCredentials = false;
-  res.render("404", { user: req.session.user, userExists, wrongCredentials });
+  res.render("404", { user: req.session.user, userExists, wrongCredentials, wrongPassword: false });
 });
 // Start the server
 const PORT = process.env.PORT || 10000;

@@ -24,7 +24,7 @@ router.post('/forgotPassword', async (req, res) => {
             let user : boolean = false;
             let emailNotFound : boolean = true;
             res.render("index", {
-              wrongCredentials, user, userExists, emailNotFound
+              wrongCredentials, user, userExists, emailNotFound, wrongPassword: false 
           })
           return;        }
 
@@ -96,7 +96,7 @@ router.get("/users/reset-password/:token", async (req, res) =>{
         let wrongCredentials : boolean = false;
         let userExists : boolean = false;
         let emailNotFound : boolean = false;
-        res.render('resetPassword', { token, user : userExists, emailNotFound, wrongCredentials, userExists });
+        res.render('resetPassword', { token, user : userExists, emailNotFound, wrongCredentials, userExists, wrongPassword: false  });
     } catch (err) {
         console.error('Error rendering password reset form:', err);
         res.status(500).json({ error: 'Server error' });
