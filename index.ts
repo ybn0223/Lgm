@@ -98,9 +98,9 @@ app.get("/sort", ensureAuthenticated, async (req, res) => {
 
 
 
-//NIEUWE WERKRUIMTE
+//NIEUWE-WERKRUIMTE
 app.get('/collection', ensureAuthenticated, async (req, res) => {
-  // Controleer of req.session.user gedefinieerd is
+  // Controleer of req.session.user gedefinieerd is, anders geeft error bij code eronder
   if (!req.session.user) {
     return res.status(401).send('Unauthorized');
   }
